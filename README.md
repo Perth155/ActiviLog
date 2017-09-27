@@ -1,12 +1,13 @@
-# Understanding-Clinical-Placement-App
->A log of activities that students undertake during clinical placements.
+# Activilog
+![Activilog Logo](https://i.imgur.com/9iWt0IF.png)
+>A supervised activity log web application.
 
 
 ## Prerequisites
 * nodejs
 * npm
 * git
-* heroku-cli
+* heroku-cli (for deploying test builds).
 
 ## Running the node webserver from localhost
 Clone this repository
@@ -24,6 +25,10 @@ $ npm start
 ```
 Project sould be running on ```localhost:3000```.
 
+To start the server on __dev mode__, which uses ```nodemon``` to track any file changes, automatically restarts node if so.
+```
+$ npm run dev
+```
 
 ## Deploy on Heroku
 By default heroku installs production dependencies only. [To install the devDependencies disable production mode](https://devcenter.heroku.com/articles/nodejs-support)
@@ -43,4 +48,4 @@ Launch the deployed web app on a web browser
 ```
 $ heroku open
 ```
-[Currently deployed on Heroku](https://clinicalog.herokuapp.com/)
+[Currently deployed on Heroku](https://activilog.herokuapp.com/)

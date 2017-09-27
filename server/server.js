@@ -30,7 +30,7 @@ app.use(function (err, req, res, next) { res.status(err.status || 500); });
 app.use('/', routes);
 
 // CONFIGURE PASSPORT //
-var account = require('./models/account');
+var account = require('./models/accounts');
 passport.use(new LocalStrategy(account.authenticate()));
 passport.serializeUser(function(user, done) {
     done(null, user.id)
@@ -42,10 +42,3 @@ passport.deserializeUser(function(id, done) {
 })
 
 module.exports = app;
-
-
-
-
-
-
-
