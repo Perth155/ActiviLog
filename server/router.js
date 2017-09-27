@@ -1,8 +1,12 @@
 var path = require('path');
 var express = require('express');
 var passport = require('passport');
-var account = require('./models/account');
-var client = require('./models/client');
+var account = require('./models/accounts');
+var client = require('./models/clients');
+var posts = require('./models/posts');
+var activities = require('./models/activities');
+var semester = require('./models/semesters');
+
 var router = express.Router();
 
 // Logged In User Function

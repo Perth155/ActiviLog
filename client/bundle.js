@@ -27237,6 +27237,7 @@ var Login = function (_React$Component) {
 			password: "",
 			register: false,
 			forgotPassword: false,
+			loading: false,
 			error: {
 				organization: null,
 				email: null,
@@ -27270,8 +27271,31 @@ var Login = function (_React$Component) {
 	}, {
 		key: "checkOrganization",
 		value: function checkOrganization() {
-			(0, _api.check_organization)(this.state.organizationName).then(function (res) {
-				console.log(res);
+			this.setState({ loading: true });
+			var self = this;
+			var errors = this.state.error;
+			(0, _api.check_organization)(this.state.organizationName).then(function (response) {
+				return response.json();
+			}).then(function (result) {
+				if (result.valid == false) {
+					errors.organization = result.msg;
+					self.setState({
+						error: errors,
+						loading: false
+					});
+					return;
+				} else {
+					errors.organization = "";
+					self.setState({
+						error: errors,
+						organizationValid: true,
+						loading: false
+					});
+					return;
+				}
+			}).catch(function (err) {
+				console.log(err);
+				self.setState({ loading: false });
 			});
 		}
 	}, {
@@ -27324,7 +27348,8 @@ var Login = function (_React$Component) {
 			    password = _state.password,
 			    register = _state.register,
 			    forgotPassword = _state.forgotPassword,
-			    error = _state.error;
+			    error = _state.error,
+			    disabled = _state.disabled;
 
 
 			if (register) {
@@ -27345,7 +27370,8 @@ var Login = function (_React$Component) {
 							name: "organizationName",
 							value: organizationName,
 							onChange: this.changeField,
-							placeholder: "Organization Name"
+							placeholder: "Organization Name",
+							disabled: disabled
 						}),
 						"@activilog"
 					),
@@ -27359,7 +27385,7 @@ var Login = function (_React$Component) {
 						null,
 						_react2.default.createElement(
 							"button",
-							{ type: "button", onClick: this.checkOrganization },
+							{ type: "button", onClick: this.checkOrganization, disabled: disabled },
 							"Continue"
 						)
 					)
@@ -27372,7 +27398,8 @@ var Login = function (_React$Component) {
 						name: "emailAddress",
 						value: emailAddress,
 						onChange: this.changeField,
-						placeholder: "Email Address"
+						placeholder: "Email Address",
+						disabled: disabled
 					}),
 					error.email && _react2.default.createElement(
 						"div",
@@ -27384,7 +27411,8 @@ var Login = function (_React$Component) {
 						name: "password",
 						value: password,
 						onChange: this.changeField,
-						placeholder: "Password"
+						placeholder: "Password",
+						disabled: disabled
 					}),
 					error.password && _react2.default.createElement(
 						"div",
@@ -27393,17 +27421,17 @@ var Login = function (_React$Component) {
 					),
 					_react2.default.createElement(
 						"button",
-						{ type: "button", onClick: this.login },
+						{ type: "button", onClick: this.login, disabled: disabled },
 						"Login"
 					),
 					_react2.default.createElement(
 						"button",
-						{ type: "button", onClick: this.register },
+						{ type: "button", onClick: this.register, disabled: disabled },
 						"Register"
 					),
 					_react2.default.createElement(
 						"span",
-						{ className: "forgotPassword", onClick: this.forgotPassword },
+						{ className: "forgotPassword", onClick: this.forgotPassword, disabled: disabled },
 						"Forgot your Password?"
 					)
 				),
@@ -27415,7 +27443,8 @@ var Login = function (_React$Component) {
 						name: "emailAddress",
 						value: emailAddress,
 						onChange: this.changeField,
-						placeholder: "Email Address"
+						placeholder: "Email Address",
+						disabled: disabled
 					}),
 					error.email && _react2.default.createElement(
 						"div",
@@ -27424,7 +27453,7 @@ var Login = function (_React$Component) {
 					),
 					_react2.default.createElement(
 						"button",
-						{ type: "button", onClick: this.resetPassword },
+						{ type: "button", onClick: this.resetPassword, disabled: disabled },
 						"Reset Password"
 					)
 				),
@@ -27496,21 +27525,19 @@ exports.check_organization = check_organization;
 exports.login = login;
 // Check Organization
 function check_organization(organization) {
-    fetch('/api/check_organization/', {
+    return fetch('/api/check_organization/', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'organization': organization
         }
-    }).then(function (result) {
-        return result;
     });
 }
 
 // Account Login
 function login(username, password) {
-    fetch('/api/login/', {
+    return fetch('/api/login/', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
