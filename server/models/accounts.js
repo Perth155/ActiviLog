@@ -17,12 +17,6 @@ var accountSchema = new Schema
 
     username: {
       type: String,
-      unique:true,
-      require:true
-    },
-
-    email: {
-      type: String,
       require:true,
       unique:true,
       validate: {
