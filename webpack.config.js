@@ -6,7 +6,11 @@ module.exports = {
     './client/index.js',
     './common/styles/style.css'
   ],
-  entry: './client/index.js',
+  entry: [
+    // fetch polyfill to support iOS
+    'whatwg-fetch',
+    path.join(__dirname, 'client', 'index.js')
+  ],
   output: {
     path: path.join(__dirname, 'client'),
     filename: 'bundle.js'
@@ -35,6 +39,11 @@ module.exports = {
         },
       ]
     }]
-
-  }
+  },
+  plugins: [  
+      new webpack.ProvidePlugin({
+            Promise: 'imports-loader?this=>global!exports-loader?global.Promise!es6-promise',
+            fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
+      })
+  ]
 }

@@ -98,7 +98,7 @@ class Login extends React.Component {
 			const properties = {
 				email: this.state.emailAddress,
 				password: this.state.password,
-				organizationName: this.state.organizationName,
+				organizationName: this.state.organizationName.toLowerCase(),
 			};
 			this.props.login(properties);
 			this.setState({ loading: false });
@@ -217,7 +217,7 @@ class Login extends React.Component {
 							<button type="button" className="submit width48 float-left" onClick={this.login} disabled={loading}>{loading && <Spinner />}Login</button>
 							<button type="button" className="register width48 float-right" onClick={this.register} disabled={loading}>Register</button>
 						</div>
-						<p className="forgotPassword" onClick={this.forgotPassword} disabled={loading}>Forgot your Password?</p>
+						<p className="forgotPassword" />
 					</div>}
 					{forgotPassword && <div className="forgotform">
 						<div className="title">

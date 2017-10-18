@@ -19,6 +19,7 @@ export function check_organization(organization) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
             'organization': organization,
         },
     });
@@ -31,6 +32,7 @@ export function login(email, password, organizationName) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
         },
         body: JSON.stringify({
             'email': email,
@@ -47,12 +49,31 @@ export function register(fullName, email, password, organizationName) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
         },
         body: JSON.stringify({
             'fullName': fullName,
             'email': email,
             'password': password,
             'organization': organizationName
+        })
+    });
+}
+
+// Account Creation
+export function create_account(fullName, email, password) {
+    return fetch('/api/create_account/', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
+            'Authorization': token,
+        },
+        body: JSON.stringify({
+            'fullName': fullName,
+            'email': email,
+            'password': password,
         })
     });
 }
@@ -64,23 +85,41 @@ export function fetchUserData() {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
             'Authorization': token,
         },
     });
 }
 
-//Fetch Logged In User's Post Data **********DOUBLE CHECK**************
+//Fetch Logged In User's Post Data
 export function fetchPosts(user) {
     return fetch('/api/fetch_posts/', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
+			'Authorization': token,
 			'userID': user,
         },
     });
 }
 
+//Publish a User's Individual Post
+export function publish_post(properties) {
+    return fetch('/api/publish_post/', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
+			'Authorization': token,
+        },
+        body: JSON.stringify(properties),
+    });
+}
+
+	
 // Add Activity
 export function add_activity(title, description, color) {
     return fetch('/api/add_activity/', {
@@ -88,6 +127,7 @@ export function add_activity(title, description, color) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
             'Authorization': token,
         },
         body: JSON.stringify({
@@ -105,6 +145,7 @@ export function edit_activity(id, title, description, color) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
             'Authorization': token,
         },
         body: JSON.stringify({
@@ -123,12 +164,15 @@ export function fetch_activities(page, pageItems) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
             'Authorization': token,
             'page': page,
             'pageItems': pageItems
         },
     });
 }
+
+
 
 // Fetch single activity
 export function fetch_activity(id) {
@@ -137,8 +181,24 @@ export function fetch_activity(id) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
             'Authorization': token,
             'activityId': id,
+        },
+    });
+}
+
+
+// Fetch single user
+export function fetch_single_user(id) {
+    return fetch('/api/fetch_single_user/', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
+            'Authorization': token,
+            'userId' : id,
         },
     });
 }
@@ -150,6 +210,57 @@ export function delete_activity(id) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
+            'Authorization': token,
+        },
+        body: JSON.stringify({
+            'id': id
+        })
+    });
+}
+
+// Fetch list of user
+export function fetch_users(page, pageItems) {
+    return fetch('/api/fetch_users/', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
+            'Authorization': token,
+            'page': page,
+            'pageItems': pageItems
+        },
+    });
+}
+
+
+// Edit User
+export function edit_user(id, fullName, email) {
+    return fetch('/api/edit_user/', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
+            'Authorization': token,
+        },
+        body: JSON.stringify({
+            'id': id,
+            'fullName': fullName,
+            'email': email
+        })
+    });
+}
+
+// Delete User
+export function delete_user(id) {
+    return fetch('/api/delete_user/', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
             'Authorization': token,
         },
         body: JSON.stringify({

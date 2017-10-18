@@ -17,6 +17,8 @@ export function getToken() {
 export function clearToken() {
     if (JSON.parse(localStorage.getItem("token")) !== null) {
 		localStorage.removeItem("token");
+		localStorage.clear();
+		sessionStorage.clear();
 	}
 	if (JSON.parse(localStorage.getItem("token")) !== null) {
 		return false;

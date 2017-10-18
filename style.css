@@ -106,24 +106,12 @@ html, body {
 	float: right;
 }
 
-.marginr14 {
-	margin-right: 14px;
-}
-
 .width20 {
 	width: 20% !important;
 }
 
-.width24 {
-	width: 24% !important;
-}
-
 .width30 {
 	width: 30% !important;
-}
-
-.width40 {
-	width: 40% !important;
 }
 
 .width48 {
@@ -143,9 +131,8 @@ html, body {
 }
 
 .page {
-	width: 800px;
 	margin-top: 30px;
-	margin-bottom: 30px;
+	width: 800px;
 	margin-left:auto;
 	margin-right:auto;
 	max-width: 1300px;
@@ -174,10 +161,6 @@ html, body {
 	font-weight: bold;
 }
 
-.box .title p img {
-	vertical-align: text-top;
-}
-
 .box .components {
 	padding-top: 20px;
 }
@@ -185,10 +168,6 @@ html, body {
 .box .components .input {
 	padding-top: 10px;
 	padding-bottom: 10px;
-}
-
-.box .components .input label {
-	display: block;
 }
 
 #color-selector .colors {
@@ -211,12 +190,6 @@ html, body {
 	border: 1px solid #000;
 }
 
-.pageNotFound {
-	text-align: center;
-	padding: 30px;
-	font-size: 22px;
-}
-
 input[type=text], input[type=password] {
     padding: 12px 20px;
     margin: 8px 0;
@@ -230,58 +203,6 @@ input[type=text], input[type=password] {
 
 input[type=text]:focus, input[type=password]:focus {
     border: 2px solid #555;
-}
-
-select {
-    padding: 12px 20px;
-    margin: 8px 0;
-	box-sizing: border-box;
-	border: 1px solid grey;
-	background-color: #F4F4F4;
-	border-radius: 5px;
-	width: 100%;
-	height: 40px;
-	font-size: 13px;
-}
-
-textarea {
-    padding: 12px 20px;
-    margin: 8px 0;
-	box-sizing: border-box;
-	border: 1px solid grey;
-	background-color: #F4F4F4;
-	border-radius: 5px;
-	width: 100%;
-	height: 130px;
-	max-height: 200px;
-	max-width: 100%;
-	min-width: 100%;
-	min-height: 130px;
-	font-size: 13px;
-}
-
-.date {
-	width: 400px !important;
-}
-
-.time_picker_container, .time_picker_preview {
-	box-shadow: none !important;
-	-webkit-box-shadow: none !important;
-	transition: none;
-	-webkit-transition: none !important;
-	background-color: #F4F4F4 !important;
-	height: 40px !important;
-	margin: 8px 0;
-}
-
-.time_picker_preview {
-	border: 1px solid grey !important;
-	border-radius: 5px !important;
-}
-
-.preview_container {
-	padding-left: 0px !important;
-	padding-right: 0px !important;
 }
 
 /* Button Styling */
@@ -396,7 +317,7 @@ th {
        
 tr:nth-child(even) th { background: #F1F1F1; }   
     
-tr:nth-child(odd) th { background: #FEFEFE; }
+tr:nth-child(odd) th { background: #FEFEFE; }  
 
 
 
@@ -479,7 +400,7 @@ tr:nth-child(odd) th { background: #FEFEFE; }
 
 /* Dashboard CSS */
 #dashboard .welcome {
-	color: black;
+	color: white;
 	font-size: 26px;
 	text-transform: uppercase;
 	padding-top: 15px;
@@ -519,21 +440,18 @@ tr:nth-child(odd) th { background: #FEFEFE; }
 
 @media only screen and (max-width: 480px), only screen and (max-device-width: 480px)
 {
-
+	
 .error {
 	color: red;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	font-size: 2.2em !important;
+	font-size: 2em;
 	margin-left: 25px;
 }
+	
 
 	
-/* welcome page*/
-
-
-	
-/* Authentication CSS */
+	/* Authentication CSS */
 
 #authenticate .container {
 	position: fixed;
@@ -545,13 +463,6 @@ tr:nth-child(odd) th { background: #FEFEFE; }
 
 #authenticate .logo {
 	width: 100%;
-	text-align: center;
-	margin-bottom: "10%";
-	transform: translate(0, -100%);
-}
-
-#authenticate .logo img{
-	width: 60%;
 	text-align: center;
 }
 
@@ -568,7 +479,7 @@ tr:nth-child(odd) th { background: #FEFEFE; }
 #authenticate .modal .organization_input input {
 	margin-bottom: 25px;
 	margin-left: 25px;
-	height: 3.0em;
+	height: 2.6em;
 	width: 70%;
 	font-size: 3.0em;
 }
@@ -639,7 +550,7 @@ tr:nth-child(odd) th { background: #FEFEFE; }
 #authenticate .modal .loginform .submit {
 	border: none;
     color: white;
-    padding: 16px 32px;
+    padding: 16px 64px;
     text-decoration: none;
     margin-top: 10px;
 	cursor: pointer;
@@ -653,7 +564,7 @@ tr:nth-child(odd) th { background: #FEFEFE; }
 #authenticate .modal .loginform .register {
 	border: none;
     color: white;
-    padding: 16px 32px;
+    padding: 16px 64px;
     text-decoration: none;
     margin-top: 10px;
 	cursor: pointer;
@@ -663,12 +574,24 @@ tr:nth-child(odd) th { background: #FEFEFE; }
 	font-size: 2em;
 }
 	
-
+#authenticate .modal .loginform .forgotPassword {
+	font-size: 2.0m;
+	text-align: left;
+	margin-top: 40px;
+	cursor: pointer;
+}	
 
 #authenticate .modal .loginform	.width48 {
-	width: 48% !important;
+	width: 46% !important;
 }
 
+#authenticate .modal .loginform	.float-left {
+	float: left;
+}
+
+#authenticate .modal .loginform	.float-right {
+	float: right;
+}
 	
 #authenticate .modal .loginform input {
 	margin-top: 20px;
@@ -747,13 +670,6 @@ tr:nth-child(odd) th { background: #FEFEFE; }
 	font-size: 3.5em;
 }
 
-
-.edit_button
-{
-	background-color: green;
-	color: yellow;
-}
-
 /* Footer CSS */
 #footer {
 	position: fixed;
@@ -766,244 +682,6 @@ tr:nth-child(odd) th { background: #FEFEFE; }
 	color: #fff;
 	font-size: 2.2em;
 	
-}
-
-/* Dashboard CSS */
-#dashboard .welcome {
-	color: black;
-	font-size: 3.5em;
-	text-transform: uppercase;
-	padding-top: 25px;
-	padding-bottom: 25px;
-}
-
-#dashboard .page List{
-	color: red;
-	font-size: 3.5em;
-	text-transform: uppercase;
-	padding-top: 25px;
-	padding-bottom: 25px;
-}
-
-#dashboard .logo img{
-	width: 50%;
-}
-
-
-#dashboard .welcome strong {
-	font-weight: bold;
-}
-
-#dashboard .container {
-	display: inline-block;
-	text-align: center;
-}
-
-#dashboard .pill {
-	width: 320px;
-	text-align:center;
-	padding: 5px;
-	margin: 27px;
-	border-radius: 3px;
-}
-
-#dashboard .pill a {
-	text-align: center;
-	text-decoration: none;
-	color: #333;
-}
-
-#dashboard .pill a:hover {
-	color: #2E61A0;
-	text-decoration: underline;
-}
-
-#dashboard .pill p {
-	margin-top: 20px;
-	font-size: 3em;
-}
-
-#dashboard .pill img {
-	height: 200px;
-	margin-top: 20px;
-}
-
-/* Form inputs */
-
-.page {
-	width: 800px;
-	margin-top: 30px;
-	margin-bottom: 30px;
-	margin-left:auto;
-	margin-right:auto;
-	max-width: 1300px;
-}
-
-.page .header {
-	width: 100%;
-	margin-top: 35px;
-	margin-bottom: 35px;
-	font-size: 24px;
-	text-transform: uppercase;
-	font-weight: bold;
-}
-
-.box {
-	width: 100%;
-	padding: 15px;
-}
-
-.box .components .error {
-	font-size: 1.3em;
-	color: red;
-}
-
-.box .components .input .error {
-	font-size: 1.0em;
-	color: red;
-}
-
-.box .title {
-	font-size: 3em;
-	text-transform: uppercase;
-	text-align: center;
-	width: 100%;
-	padding: 20px;
-	font-weight: bold;
-}
-
-.box .components {
-	padding-top: 20px;
-}
-
-.box .components input {
-	margin-top: 10px;
-	margin-bottom: 5px;
-	height: 2.8em;
-	font-size: 2.8em;
-	width: 100%;
-}
-
-.box .components select {
-	margin-top: 10px;
-	margin-bottom: 5px;
-	height: 2.8em;
-	font-size: 1em;
-}
-
-.box .components option {
-	margin-top: 10px;
-	margin-bottom: 5px;
-	font-size: 1.3em;
-}
-
-.box .components .input label {
-	display: block;
-	font-size: 2.8em;
-	margin-top: 10px;
-	margin-bottom: 15px;
-	margin-left: 10px;
-}
-
-.box .components .input select {
-	display: block;
-	font-size: 2.8em;
-	margin-top: 10px;
-	margin-bottom: 15px;
-	margin-left: 10px;
-}
-
-.box .components .submit {
-	border: none;
-    color: white;
-    padding: 16px 32px;
-    text-decoration: none;
-    margin-top: 25px;
-	cursor: pointer;
-	background-color:#428be5;
-	width: 100%;
-	border-radius: 15px;
-	font-size: 3em;
-	height: 2.7em;
-}
-
-.box .components .register {
-	border: none;
-    color: white;
-    padding: 16px 32px;
-    text-decoration: none;
-    margin-top: 25px;
-	background-color:#d12121;
-	cursor: pointer;
-	width: 100%;
-	border-radius: 15px;
-	font-size: 3em;
-	height: 2.7em;
-}
-
-
-.box .components .input .width24 {
-	margin-top: 20px;
-	margin-bottom: 30px;
-	width: 40% !important;
-	font-size: 2.4em;
-	height: 3.5em !important;
-}
-
-.box .components .input .width24 label{
-	font-size: 1.2em;
-}
-
-#color-selector .colors {
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-
-#color-selector button {
-	width: 75px;
-	height: 75px;
-	list-style: none;
-	display: inline-block;
-	margin: 15px;
-	border-radius: 3px;
-	cursor: pointer;
-	border: 3px solid transparent;
-}
-
-
-/* Table Styling */
-
-
-thead {  
-	font-weight: bold;
-	text-align: left;
-	color: #FFF;
-	border: 1px solid #428be5;
-	font-size: 2.2em;
-}
-
-thead tr {  
-    background: #428be5 !important;
-}
-
-thead th {  
-    background: #428be5 !important;
-}
-
-tbody {
-	font-size: 1.4em;
-    background: #FAFAFA;
-    text-align: left;
-}
-
-tr {
-	padding: 15px;
-	
-}
-
-th {
-	padding: 15px;
-	border: 1px solid #FFF;
 }
 
 }

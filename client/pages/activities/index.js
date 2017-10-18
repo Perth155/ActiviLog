@@ -94,14 +94,20 @@ class Activities extends React.Component {
 							<th style={{ "width": "30%" }}>Name</th>
 							<th>Description</th> 
 							<th style={{ "width": "10%" }}>Colour</th>
+							<th style={{ "width": "10%" }}>Action</th>
 						</tr>
 					</thead>
 					<tbody>
 						{!loading && activities != null && activities.map(res => {
-							return <tr key={res.id} onClick={() => this.props.history.push("activities/edit/" + res.id)}>
+							return <tr key={res.id}>
 								<th style={{"fontWeight": "bold" }}>{res.title}</th>
 								<th>{res.description}</th>
 								<th style={{"background": res.color }} />
+								<th>
+									<button type="button" style={{"background": "#4CAF50", "color" : "white", "textAlign": "center", "textDecoration": "none", "border":"none", "display": "inline-block", "fontSize": "18px", "cursor": "pointer"}} onClick={() => this.props.history.push("activities/edit/" + res.id)}>
+											<p> <img src={require('../../common/images/create-new-pencil-button.png')} /> Edit</p>
+								  	</button>
+								</th>
 							</tr>
 						})}
 					</tbody>

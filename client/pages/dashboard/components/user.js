@@ -9,6 +9,12 @@ import { fetchPosts } from '../../../api';
 class User extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			loading: false,
+			postData: null,
+			error: false,
+		}
 		
 		this.loadPosts = this.loadPosts.bind(this);
 	}
@@ -18,44 +24,61 @@ class User extends React.Component {
 	}
 	
 	loadPosts() {
+		let self = this;
 		this.setState({loading: true});
 		
 		//Get user post data
-		let self = this;
-		const load = fetchPosts(this.props.user.id).then(function(response) {
-			if (response.status == 200) {
-				return response.json();
-			} else {
-			return false;
-			}
-		}).then(function(result) {
-			if (result && result.success == true) {
-				postData.title = result.posts.title;
-				postData.desc = result.post.desc;
-				postData.startTime = result.posts.startTime;
-				postData.endTime = result.posts.endTime;
-
-				self.setState({posts: postData, loading: false});
+		fetchPosts(this.props.user.id).then(response => response.json()).then(function(result) {
+			if (result.success == true) {
+				let postData = [];
+				
+				result.posts.map(function(post) {
+					
+					const values = {
+						title: post.title,
+						desc: post.desc,
+						startTime: new Date(post.startTime),
+						endTime: new Date(post.endTime),
+						date: new Date(post.startTime),
+					}
+					return postData.push(values);
+				});
+				if (postData.length == 0) {
+					postData = null;
+				}
+				
+				self.setState({postData: postData, loading: false});
 			} else {				
-				self.setState({loading: false,});
+				self.setState({loading: false, postData: null, error: true});
 			}
 		});
 	}
 	
 	render() {
 		const {
-			user, 
-		} = this.props;  
+			loading,
+			postData,
+			error,
+		} = this.state;  
 		
 		return <div className="page">
 			<div className="welcome">
-				Welcome <strong>{user.fullName}</strong>
+				Welcome <strong>{this.props.user.fullName}</strong>
 			</div>
-			<div className="list-container">
-				<List list={["Act1","Act2","Act3"]} />
-				//Post Data as prop
-				//this.state.postData
-			</div>
+			
+			{!loading && error && <div className="error">
+				<img src={require('../../../common/images/info.png')} />
+				<p>There was an error loading the posts. Please refresh the page and try again.</p>
+			</div>}
+			
+			{!loading && !error && postData == null && <div>
+				<img src={require('../../../common/images/info.png')} />
+				<p>No posts were found. Click publish to get started</p>
+			</div>}
+			
+			{!loading && !error && postData != null && <div>
+				<List posts={this.state.postData} />
+			</div>}
 		</div>;
 	};
 };

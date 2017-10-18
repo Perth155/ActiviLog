@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const passportLocalValidator = require('passport-local-mongoose');
 const bcrypt = require('bcrypt');
+const mongoosePaginate = require('mongoose-paginate');
 
 var Schema = mongoose.Schema;
 
@@ -12,8 +13,6 @@ var enumUserType = {
 
 var accountSchema = new Schema
 ({
-    _id: Schema.Types.ObjectId,
-
     email: {
       type: String,
       require:true,
@@ -64,6 +63,8 @@ accountSchema.pre('save', function (next) {
     next();
   })
 });
+
+accountSchema.plugin(mongoosePaginate);
 
 // checking if password is valid
 accountSchema.methods.comparePassword = function(pw, cb) {

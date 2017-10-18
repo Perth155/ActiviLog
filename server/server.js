@@ -31,6 +31,12 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, '../client')));
 app.use(function (err, req, res, next) { res.status(err.status || 500); });
 app.use('/', routes);
+app.use(function noCache(req, res, next) {
+    res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.header("Pragma", "no-cache");
+    res.header("Expires", 0);
+    next();
+});
 
 // CONFIGURE PASSPORT //
 var account = require('./models/accounts');

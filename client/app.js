@@ -19,9 +19,12 @@ import Activities from './pages/activities/';
 import AddActivity from './pages/activities/add';
 import EditActivity from './pages/activities/edit';
 import Users from './pages/users/';
+import AddUser from './pages/users/add';
+import EditUser from './pages/users/edit'
 import MissingPath from './pages/MissingPath';
 
-import Loading from "./common/components/Loading"
+import Loading from "./common/components/Loading";
+import Notifications, {notify} from 'react-notify-toast';
 
 import { login as userLogin, register, set_token, fetchUserData } from './api';
 import { saveToken, getToken, clearToken } from './common/utilities/tokenStorage'
@@ -59,7 +62,7 @@ class App extends React.Component {
 		this.loadUser();
 	}
 
-	loadUser() {		
+	loadUser() {
 		const userData = {...this.state.user};
 
 		// Get WebToken from Browser
@@ -94,7 +97,7 @@ class App extends React.Component {
 			} else {
 				clearToken();
 				userData.token = null;
-				
+
 				self.setState({user: userData, loading: false,});
 			}
 		});
@@ -129,14 +132,14 @@ class App extends React.Component {
 				return;
 			}
 			// Fetch User Data
-			window.location.href = "/";
+			document.location.href = "/";
 		});
 	}
 
 	logout() {
 		// Clear Tokens and Refresh the Page
 		clearToken();
-		window.location.href = "/";
+		document.location.href = "/";
 	}
 
 	forgotPassword() {
@@ -169,7 +172,7 @@ class App extends React.Component {
 				return;
 			}
 			alert("Success! Your account has been created. You can now login.");
-			window.location.href = "/login";
+			document.location.href = "/login";
 		});
 	}
 
@@ -186,6 +189,7 @@ class App extends React.Component {
 
 		return <BrowserRouter>
 			<div>
+				<Notifications />
 				<Header user={user} logout={this.logout} />
 				<Switch>
 					<RedirectRoute
@@ -258,13 +262,13 @@ class App extends React.Component {
 						exact path="/users/add"
 						user={user}
 						role={[ACCOUNT_TYPE.ADMINISTRATOR]}
-						render={(props) => <Users user={user} />}
+						render={(props) => <AddUser user={user} />}
 					/>
 					<RedirectRoute
 						exact path="/users/edit/:id"
 						user={user}
 						role={[ACCOUNT_TYPE.ADMINISTRATOR]}
-						render={(props) => <Users user={user} />}
+						render={(props) => <EditUser user={user} />}
 					/>
 					<RedirectRoute
 						user={user}

@@ -5,6 +5,7 @@ import { fetch_activity, edit_activity, delete_activity } from '../../api';
 
 import SelectColor from './components/colors';
 import Spinner from '../../common/components/Spinner';
+import {notify} from 'react-notify-toast';
 
 class EditActivity extends React.Component {
 	constructor(props) {
@@ -40,11 +41,11 @@ class EditActivity extends React.Component {
 
 	loadActivity() {
 		this.setState({ loading: true });
-		const id = window.location.pathname.toString().substr(17);
-		self = this;
+		const id = document.location.pathname.toString().substr(17);
+		let self = this;
 		fetch_activity(id).then(response => response.json()).then(function(result) {
 			if (result.success) {
-				self.setState({ 
+				self.setState({
 					id: result.message.id,
 					title: result.message.title,
 					description: result.message.description,
@@ -58,10 +59,31 @@ class EditActivity extends React.Component {
 		});
 	}
 
+
+	loadActivity() {
+	this.setState({ loading: true });
+	const id = document.location.pathname.toString().substr(17);
+	let self = this;
+	fetch_activity(id).then(response => response.json()).then(function(result) {
+		if (result.success) {
+			self.setState({
+				id: result.message.id,
+				title: result.message.title,
+				description: result.message.description,
+				color: result.message.color,
+				header: result.message.title,
+				loading: false
+			});
+		} else {
+			self.props.history.push("/activities");
+		}
+	});
+}
+
 	deleteActivity() {
 		this.setState({ loading: true, deleting: true });
 		const id = this.state.id;
-		self = this;
+		let self = this;
 		delete_activity(id).then(response => response.json()).then(function(result) {
 			if (result.success) {
 				self.props.history.push("/activities");
@@ -103,6 +125,7 @@ class EditActivity extends React.Component {
 			let self = this;
 			edit_activity(this.state.id, this.state.title, this.state.description, this.state.color).then(response => response.json()).then(function(result) {
 				if (result.success == true) {
+					notify.show('Activity has successfully been updated');
 					self.props.history.push("/activities");
 				} else {
 					self.setState({ loading: false, saving: false, error: {generic: "Sorry, something went wrong and we could not save your changes. Please refresh the page and try again."} });
@@ -123,7 +146,7 @@ class EditActivity extends React.Component {
 	}
 
 	render() {
-		const { 
+		const {
 			title,
 			description,
 			color,
@@ -140,7 +163,9 @@ class EditActivity extends React.Component {
 
 		return <div className="page">
 			<div className="box">
-					<div className="title">Edit {header}</div>
+					<div className="title">
+									<p><img src={require('../../common/images/go_back.png')} onClick={() => this.props.history.push("/activities")}/> &nbsp; Edit {header}</p>
+					</div>
 					<div className="components">
 						<div className="input">
 							<label>Title</label>

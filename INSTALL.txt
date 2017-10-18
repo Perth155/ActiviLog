@@ -1,0 +1,26 @@
++-----------------------------------------+
+|  ActiviLog v1.0.0 - Installation Guide  |
++-----------------------------------------+
+-------------------------------------------
+ 1.0 Requirements and Installations: 
+-------------------------------------------
+* Please follow Section 3.0 and 3.1 in README.txt to install all prerequisite software before proceeding further. 
+-------------------------------------------
+ 2.0 Building and Running the Project:
+-------------------------------------------
+After installing requirements, Open a Windows Command Prompt (cmd.exe) or a bash terminal on a Linux/ macOS system :
+(1) To download and install all dependencies locally run on the Terminal/ Windows command prompt:
+$ npm install
+(2) To run the application on port 3000 of the device, simply run on the bash terminal/ Windows command prompt: 
+$ npm start 
+(3) Type in localhost:3000 on the address location of a web browser to access the application.
+(4) To stop the web server simply press CTRL + C key on the terminal (CMD+C on an Apple device). 
+(5) Terminate the process using bash shell (Linux/ macOS): 
+	$ pkill node
+    On MS Command Prompt (Windows):
+	> taskkill /f /im node.exe
+----------------------------------------------
+ 3.0 Test Log In Accounts : (email + password):
+----------------------------------------------
+*Organisation: uwa; *Admin Account : (demo_administrator_account@activlog.com + demoadministrator1); 
+*User Account:(demo_user_account@activilog.com + demouser1); *Supervisor Account: (demo_supervisor_account@activilog.com + demosupervisor1)

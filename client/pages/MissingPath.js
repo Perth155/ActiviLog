@@ -7,7 +7,7 @@ class MissingPath extends React.Component {
 	}
 
 	render() {
-		return <div>
+		return <div className="pageNotFound">
 			Error 404. Page could not be found.
 		</div>;
 	};
