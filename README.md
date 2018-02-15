@@ -7,28 +7,19 @@
 * nodejs
 * npm
 * git
-* heroku-cli (for deploying test builds).
+* heroku-cli (for deploying test builds using herokuapp.).
 
 ## Running the node webserver from localhost
 Clone this repository
 ```
-$ git clone https://github.com/Perth155/clinicalog && cd clinicalog
+$ git clone https://github.com/activilog/activilog.git && cd activilog
 ```
 Install all dependencies and run webpack to create ```bundle.js```
 ```
 $ npm install
 $ npm run webpack
 ```
-Start the node webserver
-```
-$ npm start
-```
-Project sould be running on ```localhost:3000```.
-
-To start the server on __dev mode__, which uses ```nodemon``` to track any file changes, automatically restarts node if so.
-```
-$ npm run dev
-```
+The web application should be running on ```localhost:3000```
 
 ## Deploy on Heroku
 Add remote
@@ -36,7 +27,7 @@ Add remote
 $ heroku git:remote -a activilog
 ```
 
-By default heroku installs production dependencies only. [To install the devDependencies disable production mode](https://devcenter.heroku.com/articles/nodejs-support)
+By default heroku installs production dependencies only. To install the dev dependencies [disable production mode](https://devcenter.heroku.com/articles/nodejs-support)
 ```
 $ heroku config:set NPM_CONFIG_PRODUCTION=false
 $ git push heroku master
@@ -54,3 +45,10 @@ Launch the deployed web app on a web browser
 $ heroku open
 ```
 [Currently deployed on Heroku](https://activilog.herokuapp.com/)
+
+
+## TODO
+* Add seperate PROD database (via config.json file to be gitignored)
+* Add email client to verify accounts to prevent spam accounts/ bots.
+* Make the "Add Account" Feature a "Send Invitation" feature instead (admin shouldn't be able to reset user PW anymore).
+* Get plots working... Use existing npm packages for this potentially.
