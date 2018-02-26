@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Redirect } from 'react-router-dom';
 import validateCharacters from '../../common/utilities/validateCharacters';
 import validateEmail from '../../common/utilities/validateEmail';
-import { check_organization } from '../../api';
+import { check_organization, check_email } from '../../api';
 import { Link } from 'react-router-dom';
 
 import LoginFooter from '../../common/components/LoginFooter';
@@ -18,6 +18,7 @@ class Login extends React.Component {
 			organizationName: "",
 			organizationValid: false,
 			emailAddress: "",
+			emailAddressValid:"",
 			password: "",
 			forgotPassword: false,
 			loading: false,
@@ -78,6 +79,32 @@ class Login extends React.Component {
 		});
 	}
 
+	checkEmail() {
+        this.setState({ loading: true });
+        let self = this;
+        let errors = this.state.error;
+        check_email(this.state.emailAddress.toLowerCase()).then(response => response.json()).then(function(result) {
+			if (result.valid == false) {
+				errors.email = result.msg;
+                self.setState({
+					error: errors,
+					loading: false
+                });
+                return;
+			} else {
+                errors.email = "";
+                self.setState({
+					error: errors,
+                    emailValid: true,
+					loading: false
+                });
+                return;
+            }
+		}).catch(function(err) {
+            self.setState({ loading: false });
+		});
+	}
+
 	login() {
 		this.setState({ loading: true });
 		let errors = this.state.error;
@@ -118,18 +145,11 @@ class Login extends React.Component {
 
 	resetPassword() {
 		let errors = this.state.error;
-		
-		// Check Email is Valid
-		if (validateEmail(this.state.emailAddress) == false) {
-			errors.email = "Please enter a valid email address";
-		} else {
-			errors.email = "";
-		}
-
+		this.checkEmail()
 		if (errors.email == "") {
-			this.props.forgotPassword(this.state.emailAddress);
+			this.props.forgotPassword(this.state.emailAddress)
+			console.log('This is a valid email address, password reset should be trigerred here.')
 		}
-
 		this.setState({error: errors});
 	}
 
@@ -211,6 +231,9 @@ class Login extends React.Component {
 							onChange={this.changeField}
 							disabled={loading}
 						/>
+						<div className = "pwRecover">
+							<button type="button" className = "forgotPW width75 height30" onClick={this.forgotPassword} disabled={loading}>{loading && <Spinner />}Forgot Password?</button>
+						</div>
 						{error.password && <div className="error">{error.password}</div>}
 						{loginError && <div className="error">{loginError}</div>}
 						<div className="enter">

@@ -5,7 +5,7 @@ require('../styles/style.css');
 class LoginFooter extends React.Component {
 	render() {
 		return <div id="footer">
-			<div>Copyright 2017 ActiviLog. All Rights Reserved.</div>
+			<div>Copyright 2018 ActiviLog. All Rights Reserved.</div>
 		</div>;
 	};
 };

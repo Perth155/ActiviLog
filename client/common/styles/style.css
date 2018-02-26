@@ -309,6 +309,18 @@ textarea {
 
 /* Button Styling */
 
+.forgotPW {
+    border: none;
+    color: #000000;
+    padding: 10px 5px;
+    text-decoration: none;
+    margin-top: 10px;
+	cursor: pointer;
+	width: 100%;
+	border-radius: 5px;
+	font-size: 14px;
+}
+
 .submit {
     border: none;
     color: white;

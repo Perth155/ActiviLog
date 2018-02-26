@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { fetch_users } from '../../api';
 
 import InnerLoader from '../../common/components/InnerLoader';

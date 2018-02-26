@@ -57,6 +57,16 @@ function validatePassword(val) {
     }
 }
 
+
+function validateEmail(val) {
+    if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(val) && val != "") {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 // Return Server Status
 router.get('/api/status', function(req, res){
     res.status(200).send("Server Running!");
@@ -77,6 +87,22 @@ router.get('/api/check_organization', function(req, res){
         }
     });
 });
+
+
+router.get('/api/check_email', function(req, res) {
+    var em = req.headers['email'];
+    if(!validateEmail(em)) {
+        res.status(400).json({valid: false, msg: "Please enter a valid email address"});
+        return;
+    }
+    account.findOne({ 'email':em }).exec((err, response) => {
+        if (response) {
+            res.status(200).json({valid: true});
+        } else {
+            res.status(200).json({valid: false, msg: "No accounts found for this email address" });
+        }
+    })
+})
 
 router.post('/api/login', visitor(), function(req, res) {
     client.findOne({ 'clientSubdomain': req.body.organization}).exec().then(function(organization) {
@@ -539,12 +565,13 @@ router.post('/api/edit_user', passport.authenticate('jwt', { session: false }), 
         if (!err) {
             res.json({ success: true, message: "User successfully modified" });
         } else {
-            res.json({ success: false, message: "User could not be modified at this time. :/" });
+            res.json({ success: false, message: "User could not be modified. :/" });
         }
     });
 });
 
 
+// PLACEHOLDER ----- To be replaced.
 router.post('/api/reset_password', passport.authenticate('jwt', { session: false }), hasRole([ACCOUNT_TYPE.ADMINISTRATOR]), function(req, res) {
     var salt = bcrypt.genSaltSync(10);
     var hashpw = bcrypt.hashSync(req.body.password, salt);
@@ -563,6 +590,20 @@ router.post('/api/reset_password', passport.authenticate('jwt', { session: false
             res.json({ success: false, message: "User could not be modified at this time. :/" });
         }
     });
+});
+
+router.post('/api/forgot', visitor(), (req, res, next) => {
+    async.waterfall([
+        (done) => {
+            crypto.randomBytes(20, (err, buf) => {
+                let token = buf.toString('hex');
+                done(err, token)
+            })
+        },
+        (token, done) => {
+            
+        }
+    ])
 });
 
 
