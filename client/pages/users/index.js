@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { fetch_users } from '../../api';
 
 import InnerLoader from '../../common/components/InnerLoader';
@@ -82,12 +82,12 @@ class Users extends React.Component {
 
 			{!loading && error && <div className="text-align-center">
 					<img src={require('../../common/images/info.png')} />
-					<p>There was an error loading the user list :/. Please refresh the page and try again.</p>
+					<p>There was an error loading the user list. Please refresh the page and try again.</p>
 			</div>}
 
 			{!loading && !error && users == null && <div className="text-align-center">
 					<img src={require('../../common/images/info.png')} />
-					<p>You don't yet have users.. click the 'Add User' menu button to get started.</p>
+					<p>You don't have users yet. Click the 'Add User' menu button to get started.</p>
 			</div>}
 
 

@@ -40,6 +40,16 @@ var accountSchema = new Schema
       require: true
     },
 
+    resetPasswordToken:{
+      type:String,
+      require:false
+    },
+
+    resetPasswordTokenExpireDate:{
+      type:Date,
+      require:false
+    },
+
     userType:{type:Number, require:true, enum:enumUserType},
 
     active:{type:Boolean, require:true},

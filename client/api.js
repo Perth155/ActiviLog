@@ -25,6 +25,19 @@ export function check_organization(organization) {
     });
 }
 
+export function check_email(email_address) {
+    return fetch('/api/check_email/', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
+            'email': email_address,
+        },
+    });
+}
+
+
 // Account Login
 export function login(email, password, organizationName) {
     return fetch('/api/login/', {
@@ -335,13 +348,31 @@ export function reset_password(id, password) {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Pragma': 'no-cache',
-            'Authorization': token,
+            'Authorization': token
         },
         body: JSON.stringify({
             'id': id,
             'password': password
         })
     });
+}
+
+
+// Forgot password
+export function forgot_password(id, password) {
+    return fetch('/api/forgot/', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
+            'Authorization': token
+        },
+        body: JSON.stringify({
+            'id': id, 
+
+        })
+    })
 }
 
 
