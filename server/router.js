@@ -1,14 +1,17 @@
-const bcrypt = require('bcrypt');
-var mongoose = require('mongoose');
-var path = require('path');
-var express = require('express');
-var passport = require('passport');
-var account = require('./models/accounts');
-var client = require('./models/clients');
-var posts = require('./models/posts');
-var activities = require('./models/activities');
-var semester = require('./models/semesters');
-var jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt')
+const mongoose = require('mongoose')
+const path = require('path')
+const express = require('express')
+const passport = require('passport')
+const jwt = require('jsonwebtoken')
+const nodemailer = require('nodemailer')
+const async = require('async')
+const crypto = require('crypto')
+const account = require('./models/accounts')
+const client = require('./models/clients')
+const posts = require('./models/posts')
+const activities = require('./models/activities')
+const semester = require('./models/semesters')
 
 var router = express.Router();
 
@@ -592,19 +595,62 @@ router.post('/api/reset_password', passport.authenticate('jwt', { session: false
     });
 });
 
+// Extend this to find user by email and organisation id. Currently only using email.
 router.post('/api/forgot', visitor(), (req, res, next) => {
-    async.waterfall([
+    async.waterfall([ 
         (done) => {
             crypto.randomBytes(20, (err, buf) => {
                 let token = buf.toString('hex');
+                console.log(token) //REMOVE THIS LINE
+                console.log(req.body)
+                console.log(req.body.email)
                 done(err, token)
             })
         },
         (token, done) => {
-            
-        }
-    ])
+            const userProp = {
+                'resetPasswordToken' : token,
+                'resetPasswordExpires': Date.now() + 7200000 // expires in 2 hrs.
+            }
+            account.updateOne(
+                { 'email': req.body.email },
+                { $set: {
+                    'resetPasswordToken' : token,
+                    'resetPasswordExpires': Date.now() + 7200000
+                } }
+            ).exec( (err, req, res) => {
+                if (err) {
+                    res.json({ success: false, message: "Failed to generate a passord reset token." });
+                }
+            })
+        },
+        (token, done) => {
+            let smtpTransport = nodemailer.createTransport( 'SMTP', {
+                service: 'SendGrid',
+                auth: {
+                    user: 'activilog',
+                    pass: 'activilog2018',
+                }
+            })
+            var mailOptions = {
+                to: req.body.email,
+                from: 'password.reset@activilog.com',
+                subject: 'Update Your ActiviLog Password [Don\'t Reply]',
+                text: 'You are receiving this email because your requested your password to be reset.\nPlease follow the link below to create a new password.\nIf you ignore this email and your password will remain unchanged. This link will expire in approximately 2 hours.\n\nKind Regards,\nActiviLog Dev Team\n'
+            };
+            smtpTransport.sendMail(mailOptions, (err) => {
+                req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+                done(err, 'done');
+            });
+            }
+          ], 
+    (err) => {
+        if (err) 
+            return next(err);
+        res.redirect('/forgot');
+    });
 });
+        
 
 
 
@@ -640,7 +686,7 @@ router.post('/api/delete_user', passport.authenticate('jwt', { session: false })
         if (!err) {
             res.json({ success: true, message: "User successfully deleted" });
         } else {
-            res.json({ success: false, message: "User could not be deleted" });
+            res.json({ success: false, message: "User could not be deleted. Please try again later." });
         }
     });
 });
