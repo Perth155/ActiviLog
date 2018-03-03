@@ -1,13 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Redirect } from 'react-router-dom';
-import validateCharacters from '../../common/utilities/validateCharacters';
-import validateEmail from '../../common/utilities/validateEmail';
-import { check_organization, check_email } from '../../api';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Redirect, Link } from 'react-router-dom'
+import validateCharacters from '../../common/utilities/validateCharacters'
+import validateEmail from '../../common/utilities/validateEmail'
+import { check_organization, check_email, forgot_password } from '../../api'
+import LoginFooter from '../../common/components/LoginFooter'
+import Spinner from '../../common/components/Spinner'
 
-import LoginFooter from '../../common/components/LoginFooter';
-import Spinner from '../../common/components/Spinner';
 require('../../common/styles/style.css');
 
 class Login extends React.Component {
@@ -29,6 +28,7 @@ class Login extends React.Component {
 				email: null,
 				password: null,
 				login: null,
+				forgotPW: null
 			}
 		};
 
@@ -79,30 +79,30 @@ class Login extends React.Component {
 		});
 	}
 
-	checkEmail() {
+	checkEmail(callback) {
         this.setState({ loading: true });
         let self = this;
         let errors = this.state.error;
-        check_email(this.state.emailAddress.toLowerCase()).then(response => response.json()).then(function(result) {
-			if (result.valid == false) {
-				errors.email = result.msg;
-                self.setState({
-					error: errors,
-					loading: false
-                });
-                return;
-			} else {
-                errors.email = "";
-                self.setState({
-					error: errors,
-                    emailValid: true,
-					loading: false
-                });
-                return;
-            }
-		}).catch(function(err) {
-            self.setState({ loading: false });
-		});
+			check_email(this.state.emailAddress.toLowerCase()).then(response => response.json()).then(function(result) {
+				if (result.valid == false) {
+					errors.forgotPW = result.msg;
+					self.setState({
+						error: errors,
+						loading: false
+					});
+				} else {
+					errors.forgotPW = ''
+					self.setState({
+						error: errors,
+						emailValid: true,
+						loading: false
+					});
+				}
+				callback()
+			}).catch(function(err) {
+				self.setState({ loading: false });
+			}
+		)
 	}
 
 	login() {
@@ -145,12 +145,32 @@ class Login extends React.Component {
 
 	resetPassword() {
 		let errors = this.state.error;
-		this.checkEmail()
-		if (errors.email == "") {
-			this.props.forgotPassword(this.state.emailAddress)
-			console.log('This is a valid email address, password reset should be trigerred here.')
-		}
-		this.setState({error: errors});
+		this.checkEmail(() => {
+			errors.forgotPW = this.state.error.forgotPW		
+			if (errors.forgotPW == '') {
+				this.props.forgotPassword(this.state.emailAddress)
+				forgot_password(this.state.emailAddress.toLowerCase()).then(response => response.json()).then(function(result) {
+					if (result.valid == false) {
+						errors.forgotPW = result.msg;
+						self.setState({
+							error: errors,
+							loading: false
+						});
+						return;
+					} else {
+						errors.forgotPW = '';
+						self.setState({
+							error: errors,
+							loading: false
+						});
+						return;
+					}
+				}).catch(function(err) {
+					self.setState({ loading: false });
+				});
+			}
+			this.setState({error: errors});
+		})
 	}
 
 	render() {
@@ -175,7 +195,7 @@ class Login extends React.Component {
 			const path = ("/register?" + this.state.organizationName).toString();
 			return <Redirect to={path}/>;
 		}
-
+		
 		if (loggedIn) {
 			return <Redirect to='/'/>;
 		}
@@ -255,8 +275,7 @@ class Login extends React.Component {
 							placeholder={"Email Address"}
 							disabled={loading}
 						/>
-						{error.email && <div className="error">{error.email}</div>}
-						{loginError && <div className="error">{loginError}</div>}
+						{error.forgotPW && <div className="error">{error.forgotPW}</div>}
 						<button type="button" className="reset" onClick={this.resetPassword} disabled={loading}>Reset Password</button>
 					</div>}
 				</div>

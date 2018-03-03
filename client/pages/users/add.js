@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {withRouter} from "react-router-dom";
-import {create_account} from '../../api';
+import { withRouter } from "react-router-dom";
+import { create_account } from '../../api';
 
 import Spinner from '../../common/components/Spinner';
 import validateEmail from '../../common/utilities/validateEmail';

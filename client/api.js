@@ -359,7 +359,7 @@ export function reset_password(id, password) {
 
 
 // Forgot password
-export function forgot_password(id, password) {
+export function forgot_password(email) {
     return fetch('/api/forgot/', {
         method: 'POST',
         headers: {
@@ -369,7 +369,7 @@ export function forgot_password(id, password) {
             'Authorization': token
         },
         body: JSON.stringify({
-            'id': id, 
+            'email': email, 
 
         })
     })
@@ -395,7 +395,7 @@ export function reset_usertype(id, userType) {
 
 
 // Delete User
-export function delete_user(id) {
+export function delete_user(emailAddress) {
     return fetch('/api/delete_user/', {
         method: 'POST',
         headers: {
@@ -405,7 +405,7 @@ export function delete_user(id) {
             'Authorization': token,
         },
         body: JSON.stringify({
-            'id': id
+            'email': emailAddress
         })
     });
 }

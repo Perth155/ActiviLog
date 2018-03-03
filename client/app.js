@@ -1,9 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Route } from 'react-router';
-import { Redirect } from 'react-router-dom';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Route } from 'react-router'
+import { Redirect } from 'react-router-dom'
+import { BrowserRouter, Switch } from 'react-router-dom'
+import swal from 'sweetalert'
 
-import { BrowserRouter, Switch } from 'react-router-dom';
 import { ACCOUNT_TYPE } from "./common/config"
 import RedirectRoute from "./pages/RedirectRoute"
 
@@ -27,7 +28,6 @@ import EditUserUType from './pages/users/actions/editutype'
 import MissingPath from './pages/MissingPath';
 
 import Loading from "./common/components/Loading";
-import Notifications, {notify} from 'react-notify-toast';
 
 import { login as userLogin, register, set_token, fetchUserData } from './api';
 import { saveToken, getToken, clearToken } from './common/utilities/tokenStorage'
@@ -174,8 +174,16 @@ class App extends React.Component {
 				self.setState({error: errorData});
 				return;
 			}
-			alert("Success! Your account has been created. You can now login.");
-			document.location.href = "/login";
+			console.log("FOOOFF")
+			swal({
+				type: 'success',
+				title: 'Registration Successful',
+				text: 'Your account has been created. Please login to start using our service',
+				closeOnConfirm: false
+			})
+			.then (() => {
+				window.location.href = '/login';
+			})
 		});
 	}
 

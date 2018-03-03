@@ -40,12 +40,12 @@ var accountSchema = new Schema
       require: true
     },
 
-    resetPasswordToken:{
+    resetPasswordToken: {
       type:String,
       require:false
     },
 
-    resetPasswordTokenExpireDate:{
+    resetPasswordExpires: {
       type:Date,
       require:false
     },
@@ -53,10 +53,7 @@ var accountSchema = new Schema
     userType:{type:Number, require:true, enum:enumUserType},
 
     active:{type:Boolean, require:true},
-
-    resetPasswordToken: String,
     
-    resetPasswordExpires: Date
 },{
   timestamps: true,
 });

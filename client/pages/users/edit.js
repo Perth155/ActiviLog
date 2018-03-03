@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { fetch_single_user, edit_user, delete_user } from '../../api';
-import {notify} from 'react-notify-toast';
+import { notify } from 'react-notify-toast';
 
 import validateEmail from '../../common/utilities/validateEmail';
 import Spinner from '../../common/components/Spinner';

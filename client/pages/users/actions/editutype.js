@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { fetch_single_user, reset_usertype } from '../../../api';
-import {notify} from 'react-notify-toast';
+import { notify } from 'react-notify-toast';
 
 import Spinner from '../../../common/components/Spinner';
 
@@ -34,7 +34,7 @@ class EditUserUtype extends React.Component {
 	loadUser() {
 		this.setState({ loading: true });
 		const fullstr = document.location.pathname.toString();
-    	const tmpfullsre = fullstr.split("/");
+    	const tmpfullsre = fullstr.split("/"); 
     	const id = tmpfullsre[3] ;
 		let self = this;
 		fetch_single_user(id).then(response => response.json()).then(function(result) {
