@@ -4,6 +4,7 @@ import { Route } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { BrowserRouter, Switch } from 'react-router-dom'
 import swal from 'sweetalert'
+import Notifications from 'react-notify-toast'
 
 import { ACCOUNT_TYPE } from "./common/config"
 import RedirectRoute from "./pages/RedirectRoute"
@@ -182,7 +183,7 @@ class App extends React.Component {
 				closeOnConfirm: false
 			})
 			.then (() => {
-				window.location.href = '/login';
+				document.location.href = '/login';
 			})
 		});
 	}
