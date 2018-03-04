@@ -11,13 +11,17 @@ var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
 var JwtStrategy = require('passport-jwt').Strategy;  
 var ExtractJwt = require('passport-jwt').ExtractJwt;  
+var dotenv = require('dotenv')
 var accounts = require('./models/accounts');
 
 // IMPORT ROUTER //
 var routes = require('./router');
 
+// LOADING ENVIRONMENT VARIABLES //
+dotenv.load()
+
 // LOAD MONGOOSE DATABASE //
-mongoose.connect('mongodb://user_01:dbpass123@ds121171.mlab.com:21171/clinical_placements', { useMongoClient: true });
+mongoose.connect(process.env.DB_URI, { useMongoClient: true });
 
 // PREPARE EXPRESS APP //
 app.set('view engine', 'html');

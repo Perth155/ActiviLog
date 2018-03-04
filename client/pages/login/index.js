@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Redirect, Link } from 'react-router-dom'
+import swal from 'sweetalert'
 import validateCharacters from '../../common/utilities/validateCharacters'
 import validateEmail from '../../common/utilities/validateEmail'
 import { check_organization, check_email, forgot_password } from '../../api'
@@ -34,6 +35,7 @@ class Login extends React.Component {
 
 		this.changeField = this.changeField.bind(this);
 		this.checkOrganization = this.checkOrganization.bind(this);
+		this.checkEmail = this.checkEmail.bind(this);
 		this.login = this.login.bind(this);
 		this.register = this.register.bind(this);
 		this.forgotPassword = this.forgotPassword.bind(this);
@@ -144,13 +146,15 @@ class Login extends React.Component {
 	}
 
 	resetPassword() {
+		this.setState({ loading: true });
+		let self = this;
 		let errors = this.state.error;
 		this.checkEmail(() => {
 			errors.forgotPW = this.state.error.forgotPW		
 			if (errors.forgotPW == '') {
 				this.props.forgotPassword(this.state.emailAddress)
 				forgot_password(this.state.emailAddress.toLowerCase()).then(response => response.json()).then(function(result) {
-					if (result.valid == false) {
+					if (!result.success) {
 						errors.forgotPW = result.msg;
 						self.setState({
 							error: errors,
@@ -163,7 +167,15 @@ class Login extends React.Component {
 							error: errors,
 							loading: false
 						});
-						return;
+						swal({
+							type: 'success',
+							title: 'Account Recovery Email Sent',
+							text: 'An email containing information about resetting your password should have been sent to you.\nPlease check your Spam directory if you can\'t find the email in your Inbox.',
+							closeOnConfirm: false
+						})
+						.then (() => {
+							document.location.href = '/login';
+						})
 					}
 				}).catch(function(err) {
 					self.setState({ loading: false });

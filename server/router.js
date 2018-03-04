@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 const async = require('async')
 const crypto = require('crypto')
+const sgMail = require('@sendgrid/mail')
 const account = require('./models/accounts')
 const client = require('./models/clients')
 const posts = require('./models/posts')
@@ -600,53 +601,52 @@ router.post('/api/forgot', visitor(), (req, res, next) => {
     async.waterfall([ 
         (done) => {
             crypto.randomBytes(20, (err, buf) => {
-                let token = buf.toString('hex');
-                console.log(token) //REMOVE THIS LINE
-                console.log(req.body)
-                console.log(req.body.email)
+                let token = buf.toString('hex')
                 done(err, token)
             })
         },
         (token, done) => {
-            const userProp = {
-                'resetPasswordToken' : token,
-                'resetPasswordExpires': Date.now() + 7200000 // expires in 2 hrs.
-            }
-            account.updateOne(
-                { 'email': req.body.email },
-                { $set: {
-                    'resetPasswordToken' : token,
-                    'resetPasswordExpires': Date.now() + 7200000
-                } }
-            ).exec( (err, req, res) => {
-                if (err) {
-                    res.json({ success: false, message: "Failed to generate a passord reset token." });
+            account.findOne({
+                email: req.body.email,
+                active: true,
+            }, function(err, user) {
+                if (err) throw err
+                
+                if (!user) {
+                    res.json({ success: false, msg: 'Authentication failed. User not found.' });
+                    return
+                } else {
+                    if(user.resetPasswordExpires > Date.now()) {
+                        res.json({success: false, msg: 'An account recovery email should have already been sent to you. Check in your Spam directory, or try again later.'})
+                        return
+                    }
+                    user.resetPasswordToken = token;
+                    user.resetPasswordExpires = Date.now() + 7200000;
+                    user.save(function(err) {
+                        done(err, token, user);
+                    });
                 }
             })
         },
-        (token, done) => {
-            let smtpTransport = nodemailer.createTransport( 'SMTP', {
-                service: 'SendGrid',
-                auth: {
-                    user: 'activilog',
-                    pass: 'activilog2018',
-                }
-            })
-            var mailOptions = {
+        (token, user, done) => {
+            sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+            const mail = {
                 to: req.body.email,
-                from: 'password.reset@activilog.com',
-                subject: 'Update Your ActiviLog Password [Don\'t Reply]',
-                text: 'You are receiving this email because your requested your password to be reset.\nPlease follow the link below to create a new password.\nIf you ignore this email and your password will remain unchanged. This link will expire in approximately 2 hours.\n\nKind Regards,\nActiviLog Dev Team\n'
-            };
-            smtpTransport.sendMail(mailOptions, (err) => {
-                req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
-                done(err, 'done');
-            });
+                from: 'password.reset@activilog.uwa.edu.au',
+                subject: 'Update Your ActiviLog Password [DON\'T REPLY]',
+                text: 'Dear '+user.fullName+',\n\nYou are receiving this email because you (or someone else) requested your password to be reset.\n\nPlease follow the link below to create a new password.\n\nhttps://activilog.herokuapp.com/account_recovery/'+token+'\n\nIf you ignore this email your password will remain unchanged. This link will expire in approximately 2 hours from the time received.\n\nKind Regards,\n\nActiviLog Dev Team\n\n'
             }
-          ], 
+            //console.log(mail)
+            sgMail.send(mail, (err) => {
+                res.json( {success: true, msg: 'An e-mail has been sent to ' + req.body.email + ' with further instructions.' })
+                return
+            });
+        }
+    ], 
     (err) => {
         if (err) 
-            return next(err);
+            res.json( {success: false, msg: 'Could not send an email to ' + req.body.email + '. Something went wrong.' });
+            return
         res.redirect('/forgot');
     });
 });
