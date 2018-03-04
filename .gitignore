@@ -24,4 +24,6 @@ ehthumbs.db
 # Generated using webpack 
 public/javascripts/bundle.js
 
+# dotenv environment variables file
+.env
 
