@@ -72,6 +72,11 @@ html, body {
 	margin: -4px;
 }
 
+.licenseSpan {
+	color: #0000FF;
+	text-decoration: underline;
+}
+
 .page-spinner {
 	width: 100px;
 	height: 100px;
@@ -622,5 +627,4 @@ tr:nth-child(odd) th { background: #FEFEFE; }
 		width: 100%;
 		margin: 0px;
 	}
-
 }

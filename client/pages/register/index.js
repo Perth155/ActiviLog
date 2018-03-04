@@ -7,6 +7,7 @@ import validatePassword from '../../common/utilities/validatePassword';
 
 import { check_organization } from '../../api';
 import { Link } from 'react-router-dom';
+import swal from 'sweetalert'
 
 import LoginFooter from '../../common/components/LoginFooter';
 import Spinner from '../../common/components/Spinner';
@@ -68,6 +69,15 @@ class Register extends React.Component {
 				return true;
             }
 		});
+	}
+
+	showLicensePopup() {
+		swal({
+			title: 'The MIT License',
+			text: 'Copyright 2018 Activilog\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.',
+			type: 'warning',
+			closeOnConfirm: false
+		  })
 	}
 
 	register() {
@@ -191,6 +201,7 @@ class Register extends React.Component {
 							onChange={this.changeField}
 							disabled={loading}
 						/>
+						<label>By clicking the Register button, you are agreeing with the <span onClick={this.showLicensePopup} className="licenseSpan">Terms and Conditions</span></label>
 						{error.organization && <div className="error">{error.organization}</div>}
 						{registerError && <div className="error">{registerError}</div>}
 						<div className="enter">
