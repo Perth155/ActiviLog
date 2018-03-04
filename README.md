@@ -5,7 +5,7 @@
 
 ## Prerequisites
 * nodejs
-* npm
+* yarn
 * git
 * heroku-cli (for deploying test builds using herokuapp.).
 
@@ -16,8 +16,8 @@ $ git clone https://github.com/activilog/activilog.git && cd activilog
 ```
 Install all dependencies and run webpack to create ```bundle.js```
 ```
-$ npm install
-$ npm run webpack
+$ yarn install
+$ yarn webpack && yarn dev
 ```
 The web application should be running on ```localhost:3000```
 
