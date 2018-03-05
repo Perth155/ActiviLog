@@ -12,23 +12,24 @@ import RedirectRoute from "./pages/RedirectRoute"
 // Load our components
 import Header from "./common/components/Header"
 
-import Dashboard from './pages/dashboard/';
-import Login from './pages/login/';
-import Register from './pages/register/';
-import Publish from './pages/publish';
+import Dashboard from './pages/dashboard/'
+import Login from './pages/login/'
+import Register from './pages/register/'
+import Publish from './pages/publish'
 import EditPost from './pages/publish/edit'
-import Records from './pages/records/';
-import Activities from './pages/activities/';
-import AddActivity from './pages/activities/add';
-import EditActivity from './pages/activities/edit';
-import Users from './pages/users/';
-import AddUser from './pages/users/actions/add';
+import Records from './pages/records/'
+import Activities from './pages/activities/'
+import AddActivity from './pages/activities/add'
+import EditActivity from './pages/activities/edit'
+import Users from './pages/users/'
+import AddUser from './pages/users/actions/add'
 import EditUser from './pages/users/actions/edit'
 import EditUserPW from './pages/users/actions/editpw'
 import EditUserUType from './pages/users/actions/editutype'
-import MissingPath from './pages/MissingPath';
+import MissingPath from './pages/MissingPath'
+import { AccountRecovery } from './pages/account_recovery'
 
-import Loading from "./common/components/Loading";
+import Loading from './common/components/Loading'
 
 import { login as userLogin, register, set_token, fetchUserData } from './api';
 import { saveToken, getToken, clearToken } from './common/utilities/tokenStorage'
@@ -209,6 +210,12 @@ class App extends React.Component {
 						user={user}
 						role={[ACCOUNT_TYPE.USER, ACCOUNT_TYPE.ADMINISTRATOR]}
 						render={(props) => <Dashboard user={user} />}
+					/>
+					<RedirectRoute
+						path='/account_recovery/:id/:id'
+						user={user}
+						role={[ACCOUNT_TYPE.UNREGISTERED]}
+						render={ (props) => <AccountRecovery user={user} />}
 					/>
 					<RedirectRoute
 						exact path="/login"

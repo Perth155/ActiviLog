@@ -606,25 +606,34 @@ router.post('/api/forgot', visitor(), (req, res, next) => {
             })
         },
         (token, done) => {
-            account.findOne({
-                email: req.body.email,
-                active: true,
-            }, function(err, user) {
-                if (err) throw err
-                
-                if (!user) {
-                    res.json({ success: false, msg: 'Authentication failed. User not found.' });
-                    return
+            client.findOne({ 'clientSubdomain': req.body.organization}).exec().then(function(organization) {
+                if (organization != null) {
+                    const orgId = organization._id.toString();
+                    account.findOne({
+                        email: req.body.email,
+                        organisationId: orgId,
+                        active: true
+                    }, function(err, user) {
+                        if (err) throw err
+                        
+                        if (!user) {
+                            res.json({ success: false, msg: 'Authentication failed. User not found.' });
+                            return
+                        } else {
+                            if(user.resetPasswordExpires > Date.now()) {
+                                res.json({success: false, msg: 'An account recovery email should have already been sent to you. Check in your Spam directory, or try again later.'})
+                                return
+                            }
+                            user.resetPasswordToken = token;
+                            user.resetPasswordExpires = Date.now() + 7200000;
+                            user.save(function(err) {
+                                done(err, token, user);
+                            });
+                        }
+                    })
                 } else {
-                    if(user.resetPasswordExpires > Date.now()) {
-                        res.json({success: false, msg: 'An account recovery email should have already been sent to you. Check in your Spam directory, or try again later.'})
-                        return
-                    }
-                    user.resetPasswordToken = token;
-                    user.resetPasswordExpires = Date.now() + 7200000;
-                    user.save(function(err) {
-                        done(err, token, user);
-                    });
+                    res.json({ success: false, msg: 'Could not find the organisation user is affiliated with.'})
+                    return
                 }
             })
         },
@@ -634,7 +643,7 @@ router.post('/api/forgot', visitor(), (req, res, next) => {
                 to: req.body.email,
                 from: 'password.reset@activilog.uwa.edu.au',
                 subject: 'Update Your ActiviLog Password [DON\'T REPLY]',
-                text: 'Dear '+user.fullName+',\n\nYou are receiving this email because you (or someone else) requested your password to be reset.\n\nPlease follow the link below to create a new password.\n\nhttps://activilog.herokuapp.com/account_recovery/'+token+'\n\nIf you ignore this email your password will remain unchanged. This link will expire in approximately 2 hours from the time received.\n\nKind Regards,\n\nActiviLog Dev Team\n\n'
+                text: 'Dear '+user.fullName+',\n\nYou are receiving this email because you (or someone else) requested your password to be reset.\n\nPlease follow the link below to create a new password.\n\nhttps://activilog.herokuapp.com/account_recovery/'+req.body.organization+'/'+token+'\n\nIf you ignore this email your password will remain unchanged. This link will expire in approximately 2 hours from the time received.\n\nKind Regards,\n\nActiviLog Dev Team\n\n'
             }
             //console.log(mail)
             sgMail.send(mail, (err) => {
@@ -692,7 +701,35 @@ router.post('/api/delete_user', passport.authenticate('jwt', { session: false })
 });
 
 
-
+router.get('/api/v2/check_reset_token?reset_token=:rt&org=:org', visitor(), (req, res) => {
+    client.findOne({ 'clientSubdomain': req.params.org }).exec().then(function(organization) {
+        if (organization != null) {
+            const orgId = organization._id.toString();
+            account.findOne({
+                resetPasswordToken: req.params.reset_token,
+                organisationId: orgId,
+                active: true
+            }, function(err, user) {
+                if (err) throw err
+                
+                if (!user) {
+                    res.json({ success: false, msg: 'Authentication failed, your password reset token might have expired.' });
+                    return
+                } else {
+                    if(user.resetPasswordExpires < Date.now()) {
+                        res.json({success: false, msg: 'The password reset token has expired.'})
+                        return
+                    }
+                }
+                res.json({success: true, msg: 'The password reset request is valid.'})
+                return
+            })
+        } else {
+            res.json({ success: false, msg: 'Could not find the organisation user is affiliated with.'})
+            return
+        }
+    })
+})
 
 router.get('/api/logout', function(req, res) {
     req.logout();
