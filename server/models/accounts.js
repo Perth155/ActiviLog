@@ -42,7 +42,8 @@ var accountSchema = new Schema
 
     resetPasswordToken: {
       type:String,
-      require:false
+      require:false,
+      unique: true
     },
 
     resetPasswordExpires: {

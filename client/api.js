@@ -321,6 +321,20 @@ export function fetch_users(page, pageItems) {
 }
 
 
+export function check_password_reset_token(org, resetToken) {
+    return fetch('/api/v2/check_reset_token/', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
+            'org': org,
+            'reset_token': resetToken
+        },
+    });
+}
+
+
 // Edit User
 export function edit_user(id, fullName, email) {
     return fetch('/api/edit_user/', {
@@ -359,7 +373,7 @@ export function reset_password(id, password) {
 
 
 // Forgot password
-export function forgot_password(email) {
+export function forgot_password(email, organization) {
     return fetch('/api/forgot/', {
         method: 'POST',
         headers: {
@@ -370,7 +384,7 @@ export function forgot_password(email) {
         },
         body: JSON.stringify({
             'email': email, 
-
+            'organization': organization
         })
     })
 }
@@ -409,3 +423,5 @@ export function delete_user(emailAddress) {
         })
     });
 }
+
+

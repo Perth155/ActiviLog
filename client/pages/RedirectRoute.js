@@ -15,6 +15,11 @@ class RedirectRoute extends React.Component {
 			role,
 		} = this.props;
 
+		console.log(path)
+		if ((/\/account_recovery\/:id\/:id/).test(path) && (user.token == null && user.loggedIn == false)) {
+			return <Route {...this.props} />
+		}
+
 		// Show register page if user is not logged in
 		if (path == "/register" && (user.token == null && user.loggedIn == false)) {
 			return <Route {...this.props} />;

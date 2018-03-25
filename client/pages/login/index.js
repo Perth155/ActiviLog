@@ -153,7 +153,7 @@ class Login extends React.Component {
 			errors.forgotPW = this.state.error.forgotPW		
 			if (errors.forgotPW == '') {
 				this.props.forgotPassword(this.state.emailAddress)
-				forgot_password(this.state.emailAddress.toLowerCase()).then(response => response.json()).then(function(result) {
+				forgot_password(this.state.emailAddress.toLowerCase(), this.state.organizationName.toLowerCase()).then(response => response.json()).then(function(result) {
 					if (!result.success) {
 						errors.forgotPW = result.msg;
 						self.setState({
