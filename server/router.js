@@ -701,12 +701,13 @@ router.post('/api/delete_user', passport.authenticate('jwt', { session: false })
 });
 
 
-router.get('/api/v2/check_reset_token?reset_token=:rt&org=:org', visitor(), (req, res) => {
-    client.findOne({ 'clientSubdomain': req.params.org }).exec().then(function(organization) {
+router.get('/api/v2/check_reset_token', visitor(), (req, res) => {
+    debugger
+    client.findOne({ 'clientSubdomain': req.headers['org'] }).exec().then(function(organization) {
         if (organization != null) {
             const orgId = organization._id.toString();
             account.findOne({
-                resetPasswordToken: req.params.reset_token,
+                resetPasswordToken: req.headers['reset_token'],
                 organisationId: orgId,
                 active: true
             }, function(err, user) {

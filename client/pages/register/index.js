@@ -112,7 +112,7 @@ class Register extends React.Component {
 		}
 		if (errors.fullName !== "" || errors.email !== "" || errors.password !== "" || errors.organization !== "") {
 			this.setState({ loading: false });
-			this.setState({error: errors});
+			this.setState({ error: errors });
 			return;
 		}
 		const self = this;
@@ -201,7 +201,7 @@ class Register extends React.Component {
 							onChange={this.changeField}
 							disabled={loading}
 						/>
-						<label>By clicking the Register button, you are agreeing with the <span onClick={this.showLicensePopup} className="licenseSpan">Terms and Conditions</span></label>
+						<input type="checkbox" name="licenseAgreement" value="licenseAgreement"/><label>I agree to the <span onClick={this.showLicensePopup} className="licenseSpan">Terms and Conditions</span></label>
 						{error.organization && <div className="error">{error.organization}</div>}
 						{registerError && <div className="error">{registerError}</div>}
 						<div className="enter">

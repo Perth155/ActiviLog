@@ -32,14 +32,16 @@ export class AccountRecovery extends React.Component {
         this.changeField = this.changeField.bind(this)
         this.checkPageForValidity = this.checkPageForValidity.bind(this)
         this.passwordReset = this.passwordReset.bind(this)
-		this.updatePassword = this.updatePassword.bind(this)
+		// this.updatePassword = this.updatePassword.bind(this)
 		this.navigateHome = this.navigateHome.bind(this)
 	}
 
-    checkPageForValidity() {
-		console.log(this.state.organizationName + '   ' + this.state.resetToken)
-        if(this.state.organizationName && this.state.resetToken){
-            check_password_reset_token(this.state.organizationName.toLowerCase(), this.state.resetToken.toLowerCase()).then(response => response.json()).then(function(result) {
+    checkPageForValidity(resToken, orgName) {
+		console.log(resToken + '   ' + orgName)
+		let errors = this.state.error;
+		const self = this;
+        if(orgName && resToken){
+            check_password_reset_token(orgName.toLowerCase(), resToken.toLowerCase()).then(response => response.json()).then(function(result) {
                 if (result.valid == false) {
                     errors.pwReset = 'We could not reset your password at this stage, this could be because your Password Reset Token has expired.';
                     self.setState({
@@ -57,6 +59,7 @@ export class AccountRecovery extends React.Component {
                     return;
                 }
             }).catch(function(err) {
+				console.error(err)
                 self.setState({ loading: false });
             });
         }
@@ -65,34 +68,21 @@ export class AccountRecovery extends React.Component {
 	componentDidMount() {
         const resetTokenFromURL = (location.pathname).split('/')[3]
 		const orgNameFromURL = (location.pathname).split('/')[2]
-		console.log(resetTokenFromURL.toString() + '   ' +orgNameFromURL.toString() )
-		this.setState({resetToken: resetTokenFromURL.toString()})
-		this.setState({organizationName: orgNameFromURL.toString()})
-		console.log('pre-- -- '+this.state.organizationName + '   ' + this.state.resetToken)
-        this.checkPageForValidity()
+		this.checkPageForValidity(resetTokenFromURL, orgNameFromURL)
+		this.setState({resetToken: resetTokenFromURL.toString(), organizationName: orgNameFromURL.toString()})
 	}
 
 	changeField(evt) {
-		if (evt.target.name == "password") {
-			if (validatePassword(evt.target.value)) {
-				this.setState({[evt.target.name]: evt.target.value});
-				return;
-			} else {
-				return;
-			}
-		}
 		this.setState({[evt.target.name]: evt.target.value});
 	}
 
-    updatePassword(pass) {
-
-	}
 	
 	navigateHome() {
 		//document.location.href='/login'
 	}
 
 	passwordReset() {
+		debugger
 		this.setState({ loading: true });
 		let errors = this.state.error;
 		errors.password = ''
@@ -123,6 +113,7 @@ export class AccountRecovery extends React.Component {
 	}
 
 	render() {
+		debugger
 		const { 
             resetToken,
             password,
@@ -136,6 +127,7 @@ export class AccountRecovery extends React.Component {
 		const {
 			registerError,
 		} = this.props;
+
 
 		return <div id="authenticate" className="color-wrap">
 			<div className="container">
@@ -182,7 +174,7 @@ export class AccountRecovery extends React.Component {
 						{error.repeatPW && <div className="error">{error.repeatPW}</div>}
 						{error.pwReset && <div className="error">{error.pwReset}</div>}
 						<div className="enter">
-							<button type="button" className="resetPW " onClick={this.updatePassword} disabled={loading}>{loading && <Spinner />}Reset</button>
+							<button type="button" className="resetPW " onClick={this.passwordReset} disabled={loading}>{loading && <Spinner />}Reset</button>
 						</div>
 					</div>
                 }
