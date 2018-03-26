@@ -596,6 +596,42 @@ router.post('/api/reset_password', passport.authenticate('jwt', { session: false
     });
 });
 
+
+router.post('/api/v2/reset_forgotten_password', visitor, (req, res) => {
+    var salt = bcrypt.genSaltSync(10);
+    var hashpw = bcrypt.hashSync(req.body.password, salt);
+    const properties = {
+        password: hashpw,
+    }
+    client.findOne({ 'clientSubdomain': req.body.organization }).exec().then(function(organization) {
+        if (organization != null) {
+            const orgId = organization._id.toString();
+            account.findOneAndUpdate({
+                resetPasswordToken: req.body.resetToken,
+                organisationId: orgId,
+                active: true
+            }, properties).exec(function(err, user) {
+                if (err) throw err
+                
+                if (!user) {
+                    res.json({ success: false, msg: 'Authentication failed, your password reset token might have expired.' });
+                    return
+                } else {
+                    if(user.resetPasswordExpires < Date.now()) {
+                        res.json({success: false, msg: 'The password reset token has expired.'})
+                        return
+                    }
+                }
+                res.json({success: true, msg: 'Password reset successfully.'})
+                return
+            })
+        } else {
+            res.json({ success: false, msg: 'Could not find the organisation user is affiliated with.'})
+            return
+        }
+    })
+})
+
 // Extend this to find user by email and organisation id. Currently only using email.
 router.post('/api/forgot', visitor(), (req, res, next) => {
     async.waterfall([ 
@@ -702,7 +738,6 @@ router.post('/api/delete_user', passport.authenticate('jwt', { session: false })
 
 
 router.get('/api/v2/check_reset_token', visitor(), (req, res) => {
-    debugger
     client.findOne({ 'clientSubdomain': req.headers['org'] }).exec().then(function(organization) {
         if (organization != null) {
             const orgId = organization._id.toString();
