@@ -1,5 +1,6 @@
 # Activilog
 ![Activilog Logo](https://i.imgur.com/9iWt0IF.png)
+
 A supervised activity log single-page web application, created using a MERN full stack.
 
 
