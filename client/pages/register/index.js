@@ -22,6 +22,7 @@ class Register extends React.Component {
 			fullName: "",
 			emailAddress: "",
 			password: "",
+			agreement:false,
 			loading: false,
 			error: {
 				organization: null,
@@ -29,6 +30,7 @@ class Register extends React.Component {
 				password: null,
 				fullName: null,
 				register: null,
+				agreement: null
 			}
 		};
 
@@ -75,7 +77,7 @@ class Register extends React.Component {
 		swal({
 			title: 'The MIT License',
 			text: 'Copyright 2018 Activilog\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.',
-			type: 'info',
+			icon: 'info',
 			closeOnConfirm: false
 		  })
 	}
@@ -88,6 +90,7 @@ class Register extends React.Component {
 		errors.organization =  "";
 		errors.email = "";
 		errors.fullName = "";
+		errors.agreement = "";
 		// Check valid Full Name
 		if (this.state.fullName.trim() == "") {
 			errors.fullName = "Please enter your name";
@@ -110,7 +113,12 @@ class Register extends React.Component {
 		} else {
 			errors.organization = "";
 		}
-		if (errors.fullName !== "" || errors.email !== "" || errors.password !== "" || errors.organization !== "") {
+		if (! this.state.agreement ) {
+			errors.agreement = "To use ActiviLog you must agree to the Terms and Conditions";
+		} else {
+			errors.agreement = "";
+		}
+		if (errors.fullName !== "" || errors.email !== "" || errors.password !== "" || errors.organization !== "" || errors.agreement != "") {
 			this.setState({ loading: false });
 			this.setState({ error: errors });
 			return;
@@ -145,6 +153,7 @@ class Register extends React.Component {
 			emailAddress,
 			password,
 			fullName,
+			agreement,
 			loading,
 			error,
 		} = this.state;
@@ -201,7 +210,15 @@ class Register extends React.Component {
 							onChange={this.changeField}
 							disabled={loading}
 						/>
-						<input type="checkbox" name="licenseAgreement" value="licenseAgreement"/><label>I agree to the <span onClick={this.showLicensePopup} className="licenseSpan">Terms and Conditions</span></label>
+						<input 
+							type="checkbox" 
+							name="agreement" 
+							value={agreement}
+							onChange={this.changeField}
+							disabled={loading}	
+						/>	
+						<label>I agree to the <span onClick={this.showLicensePopup} className="licenseSpan">Terms and Conditions</span></label>
+						{error.agreement && <div className="error">{error.agreement}</div>}
 						{error.organization && <div className="error">{error.organization}</div>}
 						{registerError && <div className="error">{registerError}</div>}
 						<div className="enter">

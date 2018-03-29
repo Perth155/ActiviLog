@@ -371,6 +371,22 @@ export function reset_password(id, password) {
     });
 }
 
+export function reset_forgotten_password(orgName, resetToken, password) {
+    return fetch('/api/v2/reset_forgotten_password/', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Pragma': 'no-cache',
+            'Authorization': token
+        },
+        body: JSON.stringify({
+            'password': password,
+            'resetToken': resetToken,
+            'organization': orgName
+        })
+    });
+}
 
 // Forgot password
 export function forgot_password(email, organization) {

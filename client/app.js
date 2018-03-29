@@ -176,9 +176,8 @@ class App extends React.Component {
 				self.setState({error: errorData});
 				return;
 			}
-			console.log("FOOOFF")
 			swal({
-				type: 'success',
+				icon: 'success',
 				title: 'Registration Successful',
 				text: 'Your account has been created. Please login to start using our service',
 				closeOnConfirm: false
