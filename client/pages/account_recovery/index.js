@@ -84,12 +84,12 @@ export class AccountRecovery extends React.Component {
 	}
 
 
-	updatePassword() {
+	updatePassword(cb) {
 		let errors = this.state.error;
 		const self = this;
 		if(this.state.password) {
             reset_forgotten_password(this.state.organizationName.toLowerCase(), this.state.resetToken.toLowerCase(), this.state.password).then(response => response.json()).then(function(result) {
-                if (result.success == false) {
+                if (!result.success) {
                     errors.pwReset = 'We could not reset your password at this stage, please try again later.';
                     self.setState({
                         error: errors,
@@ -97,29 +97,27 @@ export class AccountRecovery extends React.Component {
                     });
                     return;
                 } else {
-                    errors.pwReset = "";
+					errors.pwReset = "";
                     self.setState({
                         error: errors,
-                        validatedAccess: true,
-                        loading: false
-                    });
-                    return;
+						loading: false
+					});
                 }
             }).catch(function(err) {
 				console.error(err)
-                self.setState({ loading: false });
-            });
+				self.setState({ loading: false });
+				return;
+			});
+			cb()
 		}
 	}
 
 	passwordReset() {
-		debugger
 		this.setState({ loading: true });
 		let errors = this.state.error;
 		errors.password = ''
 		errors.repeatPW = ''
 		errors.pwReset =  ''
-
 		if (validatePassword(this.state.password) === false) {
 			errors.password = 'Please enter a valid password. A valid password contains a minimum of 8 characters, at least a letter [A-Z,a-z], and a number.[0-9].';
 		} else {
@@ -132,19 +130,25 @@ export class AccountRecovery extends React.Component {
         }
 		
 		
-		if (errors.pwReset !== '' || errors.password !== '' || errors.repeatPW == '') {
+		if (errors.pwReset !== '' || errors.password !== '' || errors.repeatPW !== '') {
 			this.setState({ loading: false });
 			this.setState({error: errors});
-			return;
+		} else {
+			this.updatePassword(() => {
+				swal({
+					icon: 'success',
+					title: 'Password Reset Successfully',
+					text: 'Your password has been successfully reset. Log in again to start using ActiviLog',
+					closeOnConfirm: false
+				})
+				.then (() => {
+					document.location.href = '/login';
+				})
+			});
 		}
-		const self = this;
-        this.updatePassword();
-        self.setState({ loading: false });
-        self.setState({ error: errors });
 	}
 
 	render() {
-		debugger
 		const { 
             resetToken,
             password,

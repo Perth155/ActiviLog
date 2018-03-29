@@ -168,7 +168,7 @@ class Login extends React.Component {
 							loading: false
 						});
 						swal({
-							type: 'success',
+							icon: 'success',
 							title: 'Account Recovery Email Sent',
 							text: 'An email containing information about resetting your password should have been sent to you.\nPlease check your Spam directory if you can\'t find the email in your Inbox.',
 							closeOnConfirm: false

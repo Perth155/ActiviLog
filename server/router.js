@@ -597,11 +597,13 @@ router.post('/api/reset_password', passport.authenticate('jwt', { session: false
 });
 
 
-router.post('/api/v2/reset_forgotten_password', visitor, (req, res) => {
+router.post('/api/v2/reset_forgotten_password', visitor(), (req, res) => {
     var salt = bcrypt.genSaltSync(10);
     var hashpw = bcrypt.hashSync(req.body.password, salt);
     const properties = {
         password: hashpw,
+        resetPasswordToken: null,
+        resetPasswordExpires: Date.now()
     }
     client.findOne({ 'clientSubdomain': req.body.organization }).exec().then(function(organization) {
         if (organization != null) {
