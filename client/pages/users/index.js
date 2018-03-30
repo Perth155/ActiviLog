@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { fetch_users } from '../../api';
-
 import InnerLoader from '../../common/components/InnerLoader';
 import Pagination from '../../common/components/Pagination';
 
@@ -117,10 +116,6 @@ class Users extends React.Component {
 											<button type="button" style={{"background": "#4CAF50", "color" : "white", "textAlign": "center", "textDecoration": "none", "border":"none", "display": "inline-block", "fontSize": "14px", "cursor": "pointer", "borderRadius" : "3px"}} onClick={() => this.props.history.push("users/edit/" + res.id)}>
 												<p> <img src={require('../../common/images/create-new-pencil-button.png')} /> Edit</p>
 							  				</button>
-											&nbsp;
-											<button type="button" style={{"background": "red", "color" : "white", "textAlign": "center", "textDecoration": "none", "border":"none", "display": "inline-block", "fontSize": "14px", "cursor": "pointer", "borderRadius" : "3px"}} onClick={() => this.props.history.push("users/chpw/" + res.id)}>
-										 		<p> <img src={require('../../common/images/lock_icon.png')} /> Reset Password</p>
-											</button>
 											&nbsp;
 											<button type="button" style={{"background": "#e6b800", "color" : "white", "textAlign": "center", "textDecoration": "none", "border":"none", "display": "inline-block", "fontSize": "14px", "cursor": "pointer", "borderRadius" : "3px"}} onClick={() => this.props.history.push("users/chutype/" + res.id)}>
 												<p> <img src={require('../../common/images/settings-cogwheel-button.png')} /> Change Privilege</p>

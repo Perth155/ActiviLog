@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { fetch_activities, publish_post } from '../../api';
 
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import Spinner from '../../common/components/Spinner';
-import {notify} from 'react-notify-toast';
+import { notify } from 'react-notify-toast';
 import TimePicker from 'react-times';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -356,4 +356,4 @@ Publish.propTypes = {
 	user: PropTypes.object,
 };
 
-export default withRouter(Publish);
+export default Publish;

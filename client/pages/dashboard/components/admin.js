@@ -1,6 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from 'react-router-dom';
+import CommunicationVpnKey from 'material-ui/svg-icons/communication/vpn-key'
+import FloatingActionButton  from 'material-ui/FloatingActionButton'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+
+const styleUpdatePW = {
+    margin: 0,
+    top: 'auto',
+    right: 20,
+    bottom: 20,
+    left: 'auto',
+    position: 'fixed',
+};
 
 class Admin extends React.Component {
 	constructor(props) {
@@ -41,6 +56,13 @@ class Admin extends React.Component {
 						</Link>
 					</div>
 				</div>
+			</div>
+			<div>
+				<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+					<FloatingActionButton style={ styleUpdatePW } backgroundColor='#FF0000' href='/update_password'>
+						<CommunicationVpnKey /> 
+					</FloatingActionButton>
+				</MuiThemeProvider>
 			</div>
 		</div>;
 	};

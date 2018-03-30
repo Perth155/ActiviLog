@@ -1,6 +1,6 @@
 {
-  "name": "Activilog",
-  "version": "0.0.2",
+  "name": "ActiviLog",
+  "version": "0.5.0",
   "description": "Activilog is a web application for creating supervised activity logs.",
   "main": "app.js",
   "scripts": {
@@ -14,7 +14,7 @@
     {
       "name": "Abrar Amin",
       "email": "abrar.a.amin@gmail.com",
-      "url": "https://github.com/perth155"
+      "url": "https://github.com/abraramin"
     },
     {
       "name": "Amelita Putri Karunia",
@@ -24,7 +24,7 @@
     {
       "name": "Peter Joseph",
       "email": "contact@peterajoseph.com",
-      "url": "https://github.com/withpeterjoseph"
+      "url": "https://github.com/peterjoseph"
     },
     {
       "name": "Richard Wen",
@@ -44,13 +44,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Perth155/activilog.git"
+    "url": "git+https://github.com/activilog/activilog.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Perth155/activilog/issues"
+    "url": "https://github.com/activilog/activilog/issues"
   },
-  "homepage": "https://github.com/Perth155/activilog#readme",
+  "homepage": "https://github.com/activilog/activilog#readme",
   "dependencies": {
     "@sendgrid/mail": "^6.2.1",
     "assert": "^1.4.1",
@@ -69,6 +69,7 @@
     "jade": "~1.11.0",
     "json2csv": "^3.11.4",
     "jsonwebtoken": "^8.0.1",
+    "material-ui": "^0.20.0",
     "mocha": "^3.4.2",
     "moment": "^2.19.1",
     "mongoose": "^4.9.8",
@@ -90,6 +91,7 @@
     "react-datepicker": "^0.55.0",
     "react-dom": "^15.6.1",
     "react-history": "^0.18.2",
+    "react-modal": "^3.3.2",
     "react-notify-toast": "^0.3.2",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",

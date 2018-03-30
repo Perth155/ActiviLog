@@ -1,11 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Collapsible from "react-collapsible";
+import ActionSettings from 'material-ui/svg-icons/action/settings';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import CommunicationVpnKey from 'material-ui/svg-icons/communication/vpn-key'
+import FloatingActionButton  from 'material-ui/FloatingActionButton'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import InnerLoader from '../../../common/components/InnerLoader';
 import Pagination from '../../../common/components/Pagination';
 import List from "../../../common/components/List";
 import { fetchPosts } from '../../../api';
+import { Publish } from '../../publish'
+
+const styleUpdatePW = {
+    margin: 0,
+    top: 'auto',
+    right: 20,
+    bottom: 20,
+    left: 'auto',
+    position: 'fixed',
+};
+
+const stylePublish = {
+    margin: 0,
+    top: 'auto',
+    right: 20,
+    bottom: 90,
+    left: 'auto',
+    position: 'fixed',
+};
+
 
 class User extends React.Component {
 	constructor(props) {
@@ -18,7 +45,7 @@ class User extends React.Component {
 			openAll: true,
 			page: 1,
 			pageItems: 50,
-			totalResults: 0,
+			totalResults: 0
 		}
 		
 		this.loadPosts = this.loadPosts.bind(this);
@@ -89,24 +116,38 @@ class User extends React.Component {
 			openAll,
 		} = this.state;  
 		
-		return <div className="page">
-			{loading && <InnerLoader />}
+		return (
+			<div className="page">
+				{loading && <InnerLoader />}
 
-			{!loading && error && <div className="error text-align-center">
-				<img src={require('../../../common/images/info.png')} />
-				<p>There was an error loading the posts. Please refresh the page and try again.</p>
-			</div>}
-			
-			{!loading && !error && postData == null && <div className="text-align-center">
-				<img src={require('../../../common/images/info.png')} />
-				<p>No posts were found. Click publish to get started.</p>
-			</div>}
-			
-			{!loading && !error && postData != null && <div>
-				<List posts={this.state.postData} openAll={this.state.openAll} />
-				<Pagination page={this.state.page} pageItems={this.state.pageItems} totalResults={this.state.totalResults} changePage={this.changePage} disabled={loading} />
-			</div>}
-		</div>;
+				{!loading && error && <div className="error text-align-center">
+					<img src={require('../../../common/images/info.png')} />
+					<p>There was an error loading the posts. Please refresh the page and try again.</p>
+				</div>}
+				
+				{!loading && !error && postData == null && <div className="text-align-center">
+					<img src={require('../../../common/images/info.png')} />
+					<p>No posts were found. Click the publish button below to get started.</p>
+				</div>}
+				
+				{!loading && !error && postData != null && <div>
+					<List posts={this.state.postData} openAll={this.state.openAll} />
+					<Pagination page={this.state.page} pageItems={this.state.pageItems} totalResults={this.state.totalResults} changePage={this.changePage} disabled={loading} />
+				</div>}
+				<div>
+					<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+						<FloatingActionButton style={ styleUpdatePW } backgroundColor='#FF0000' href='/update_password'>
+							<CommunicationVpnKey /> 
+						</FloatingActionButton>
+					</MuiThemeProvider>
+					<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+						<FloatingActionButton style={ stylePublish } href='/publish'>
+							<ContentAdd />
+						</FloatingActionButton>
+					</MuiThemeProvider>
+				</div>
+			</div>
+		);
 	};
 };
 
