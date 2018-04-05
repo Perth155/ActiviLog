@@ -8,7 +8,7 @@ import FloatingActionButton  from 'material-ui/FloatingActionButton'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
+import { Link } from 'react-router-dom';
 import InnerLoader from '../../../common/components/InnerLoader';
 import Pagination from '../../../common/components/Pagination';
 import List from "../../../common/components/List";
@@ -32,7 +32,6 @@ const stylePublish = {
     left: 'auto',
     position: 'fixed',
 };
-
 
 class User extends React.Component {
 	constructor(props) {
@@ -136,15 +135,19 @@ class User extends React.Component {
 				</div>}
 				<div>
 					<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-						<FloatingActionButton style={ styleUpdatePW } backgroundColor='#FF0000' href='/update_password'>
+						<FloatingActionButton style={ styleUpdatePW } backgroundColor='#2e0000' href='/update_password'>
 							<CommunicationVpnKey /> 
 						</FloatingActionButton>
 					</MuiThemeProvider>
-					<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-						<FloatingActionButton style={ stylePublish } href='/publish'>
-							<ContentAdd />
-						</FloatingActionButton>
-					</MuiThemeProvider>
+				</div>
+				<div>
+					<Link to={{pathname: '/publish'}}>
+						<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+							<FloatingActionButton style={ stylePublish } backgroundColor='#000080'>
+								<ContentAdd />
+							</FloatingActionButton>
+						</MuiThemeProvider>
+					</Link>
 				</div>
 			</div>
 		);

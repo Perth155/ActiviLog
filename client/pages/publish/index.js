@@ -356,4 +356,4 @@ Publish.propTypes = {
 	user: PropTypes.object,
 };
 
-export default Publish;
+export default withRouter(Publish);

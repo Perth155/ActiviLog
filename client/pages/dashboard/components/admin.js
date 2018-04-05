@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from 'react-router-dom';
 import CommunicationVpnKey from 'material-ui/svg-icons/communication/vpn-key'
+import ActionExitToApp from 'material-ui/svg-icons/action/exit-to-app'
 import FloatingActionButton  from 'material-ui/FloatingActionButton'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
@@ -58,11 +59,17 @@ class Admin extends React.Component {
 				</div>
 			</div>
 			<div>
-				<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-					<FloatingActionButton style={ styleUpdatePW } backgroundColor='#FF0000' href='/update_password'>
-						<CommunicationVpnKey /> 
-					</FloatingActionButton>
-				</MuiThemeProvider>
+				{
+					(() => { 
+						if(window.screen.height > 568 && window.screen.width > 320) {
+							return <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+								<FloatingActionButton style={ styleUpdatePW } backgroundColor='#FF0000' href='/update_password'>
+									<CommunicationVpnKey /> 
+								</FloatingActionButton>
+							</MuiThemeProvider>
+						}
+					}) ()
+				}
 			</div>
 		</div>;
 	};

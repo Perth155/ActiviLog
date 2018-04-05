@@ -86,12 +86,20 @@ class Header extends React.Component {
 									<span>Activities</span>
 								</Link>
 							</li>
-							<li>
-								<Link to={{pathname: '/users'}} className={path.includes("/users") ? "active" : ""}>
-									<img src={require('../images/menu_accounts.png')} />
-									<span>Accounts</span>
-								</Link>
-							</li>
+							{
+								(() => { 
+									if(window.screen.height > 568 && window.screen.width > 320) {
+											return (
+														<li>
+															<Link to={{pathname: '/users'}} className={path.includes("/users") ? "active" : ""}>
+																<img src={require('../images/menu_accounts.png')} />
+																<span>Accounts</span>
+															</Link>
+														</li>
+											)
+										}
+								}) ()
+							}														
 							<li className={"logout-button"}>
 								<a onClick={this.props.logout}>
 									<img src={require('../images/menu_logout.png')} />
