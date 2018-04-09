@@ -9,6 +9,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Link } from 'react-router-dom';
+import Modal from 'react-modal'
 import InnerLoader from '../../../common/components/InnerLoader';
 import Pagination from '../../../common/components/Pagination';
 import List from "../../../common/components/List";
@@ -33,6 +34,17 @@ const stylePublish = {
     position: 'fixed',
 };
 
+const styleModal = {
+	content : {
+		top: '50%',
+	  	left: '50%',
+	    right: 'auto',
+	  	bottom: 'auto',
+		marginRight: '-50%',
+		transform: 'translate(-50%, -50%)'
+	}
+  };
+
 class User extends React.Component {
 	constructor(props) {
 		super(props);
@@ -44,12 +56,29 @@ class User extends React.Component {
 			openAll: true,
 			page: 1,
 			pageItems: 50,
-			totalResults: 0
+			totalResults: 0,
+			showUpdatePWModal: false
 		}
 		
 		this.loadPosts = this.loadPosts.bind(this);
 		this.openClose = this.openClose.bind(this);
 		this.changePage = this.changePage.bind(this);
+		this.handleOpenModal = this.handleOpenModal.bind(this);
+		this.afterOpenModal = this.afterOpenModal.bind(this);
+		this.handleCloseModal = this.handleCloseModal.bind(this);
+	}
+
+	handleOpenModal () {
+		this.setState({ showUpdatePWModal: true });
+	}
+
+	afterOpenModal() {
+		// this.subtitle.style.color = '#f00';
+	}
+	
+	  
+	handleCloseModal () {
+		this.setState({ showUpdatePWModal: false });
 	}
 	
 	componentDidMount() {
@@ -113,6 +142,7 @@ class User extends React.Component {
 			postData,
 			error,
 			openAll,
+			showUpdatePWModal
 		} = this.state;  
 		
 		return (
@@ -135,10 +165,15 @@ class User extends React.Component {
 				</div>}
 				<div>
 					<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-						<FloatingActionButton style={ styleUpdatePW } backgroundColor='#2e0000' href='/update_password'>
+						<FloatingActionButton style={ styleUpdatePW } backgroundColor='#2e0000' onClick={this.handleOpenModal}>
 							<CommunicationVpnKey /> 
 						</FloatingActionButton>
 					</MuiThemeProvider>
+
+					<Modal isOpen={this.state.showUpdatePWModal} onAfterOpen={this.afterOpenModal} onRequestClose={this.handleCloseModal} style={styleModal} contentLabel="Update Password">
+						<h2>Update Password</h2>
+          				<button onClick={this.handleCloseModal}>Close Modal</button>
+        			</Modal>
 				</div>
 				<div>
 					<Link to={{pathname: '/publish'}}>

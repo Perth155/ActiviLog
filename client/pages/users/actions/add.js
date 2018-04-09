@@ -74,66 +74,17 @@ class AddUser extends React.Component {
 	}
 
 	render() {
-		const {
-			fullName,
-			emailAddress,
-			password,
-			error,
-			loading
-		} = this.state;
-
-		const {
-			user,
-		} = this.props;
-
-		return <div className="page">
-			<div className="box">
-					<div className="title">
-								<p><img src={require('../../../common/images/go_back.png')} onClick={() => this.props.history.push("/users")}/> &nbsp; Add New User</p>
-					</div>
-					<div className="components">
-						<div className="input">
-							<label>Full Name</label>
-							<input
-								type="text"
-								name="fullName"
-								value={fullName}
-								onChange={this.changeField}
-								disabled={loading}
-								placeholder="Jane Citizen"
-							/>
-							{error.fullName && <div className="error">{error.fullName}</div>}
+		return (
+			<div className="page">
+				<div className="box">
+						<div className="components">
+							<div className="input">
+								<label>We are sorry, this feature is currently unavailable due to email limits using Sendgrid. We are working on an alternative. </label>
+							</div>
 						</div>
-						<div className="input">
-							<label>Email Address</label>
-							<input
-								type="text"
-								name="emailAddress"
-								value={emailAddress}
-								onChange={this.changeField}
-								disabled={loading}
-								placeholder="jane.citizen@activilog.example.com"
-							/>
-							{error.emailAddress && <div className="error">{error.emailAddress}</div>}
-						</div>
-						<div className="input">
-							<label>Password</label>
-							<input
-								type="password"
-								name="password"
-								value={password}
-								onChange={this.changeField}
-								disabled={loading}
-							/>
-							{error.password && <div className="error">{error.password}</div>}
-						</div>
-						{error.generic && <div className="error">{error.generic}</div>}
-						<div>
-							<button type="button" className="submit" onClick={this.addUser} disabled={loading}>{loading && <Spinner />}Save</button>
-						</div>
-					</div>
+				</div>
 			</div>
-		</div>;
+		);
 	};
 };
 

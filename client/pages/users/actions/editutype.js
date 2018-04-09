@@ -98,7 +98,7 @@ class EditUserUtype extends React.Component {
 		} = this.props;
 
 		return <div className="page">
-			<div className="box">
+				<div className="box">
 					<div className="title">
                   		<p><img src={require('../../../common/images/go_back.png')} onClick={() => this.props.history.push("/users")}/> &nbsp; Change {header}'s Privilege</p>
         	  		</div>
@@ -118,7 +118,7 @@ class EditUserUtype extends React.Component {
 						<div>
 						<button type="button" className="submit width60 float-right" onClick={this.editUtype} disabled={loading}>{saving && <Spinner />}Update Privilege</button>
 					</div>
-          </div>
+          		</div>
 			</div>
 		</div>;
 	};

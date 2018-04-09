@@ -24,7 +24,6 @@ import EditActivity from './pages/activities/edit'
 import Users from './pages/users/'
 import AddUser from './pages/users/actions/add'
 import EditUser from './pages/users/actions/edit'
-import EditUserPW from './pages/users/actions/editpw'
 import EditUserUType from './pages/users/actions/editutype'
 import MissingPath from './pages/MissingPath'
 import { AccountRecovery } from './pages/account_recovery'
@@ -293,12 +292,6 @@ class App extends React.Component {
 						user={user}
 						role={[ACCOUNT_TYPE.ADMINISTRATOR]}
 						render={(props) => <EditUser user={user} />}
-					/>
-					<RedirectRoute
-						exact path="/users/chpw/:id"
-						user={user}
-						role={[ACCOUNT_TYPE.ADMINISTRATOR]}
-						render={(props) => <EditUserPW user={user} />}
 					/>
 					<RedirectRoute
 						exact path="/users/chutype/:id"

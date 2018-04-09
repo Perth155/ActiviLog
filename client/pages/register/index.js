@@ -217,7 +217,7 @@ class Register extends React.Component {
 							onChange={this.changeField}
 							disabled={loading}	
 						/>	
-						<label>I agree to the <span onClick={this.showLicensePopup} className="licenseSpan">Terms and Conditions</span></label>
+						<label>I agree to the <span onClick={this.showLicensePopup} className="licenseSpan">Terms and Conditions</span> and am at least 13 years old</label>
 						{error.agreement && <div className="error">{error.agreement}</div>}
 						{error.organization && <div className="error">{error.organization}</div>}
 						{registerError && <div className="error">{registerError}</div>}

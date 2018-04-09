@@ -160,7 +160,7 @@ class Header extends React.Component {
 								</li>
 								<li>
 									<Link to={{pathname: '/users/add'}} className={path == "/users/add" ? "active" : ""}>
-										<span> <img src={require('../images/add-user-button.png')}/> Add Account</span>
+										<span> <img src={require('../images/add-user-button.png')}/> Invite Users</span>
 									</Link>
 								</li>
 							</ul>
