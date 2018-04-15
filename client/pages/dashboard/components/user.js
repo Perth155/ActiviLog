@@ -15,6 +15,7 @@ import Pagination from '../../../common/components/Pagination';
 import List from "../../../common/components/List";
 import { fetchPosts } from '../../../api';
 import { Publish } from '../../publish'
+import ForgotPasswordModal from './ForgotPasswordModal'
 
 const styleUpdatePW = {
     margin: 0,
@@ -170,10 +171,7 @@ class User extends React.Component {
 						</FloatingActionButton>
 					</MuiThemeProvider>
 
-					<Modal isOpen={this.state.showUpdatePWModal} onAfterOpen={this.afterOpenModal} onRequestClose={this.handleCloseModal} style={styleModal} contentLabel="Update Password">
-						<h2>Update Password</h2>
-          				<button onClick={this.handleCloseModal}>Close Modal</button>
-        			</Modal>
+					<ForgotPasswordModal isOpen={this.state.showUpdatePWModal} onAfterOpen={this.afterOpenModal} onRequestClose={this.handleCloseModal} />
 				</div>
 				<div>
 					<Link to={{pathname: '/publish'}}>
